@@ -1,7 +1,6 @@
 
 import type { Metadata } from "next";
 import AuthProvider from "./auth/Provider";
-import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import styles from "./page.module.css"
 import "./globals.css";
@@ -23,9 +22,9 @@ export default function RootLayout({
       <body className="bg-neutral-800">
      
         <AuthProvider>
-          <Navbar/>
+     
           <main className={` ${styles.background}`}>
-            <div className="pt-15 w-full">
+            <div className= "w-full">
               {children}
             </div> 
           </main>
