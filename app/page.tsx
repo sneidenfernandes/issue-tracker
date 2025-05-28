@@ -1,20 +1,31 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { AiFillBug } from "react-icons/ai";
 import { FaQuestionCircle } from "react-icons/fa";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import Navbar from "./components/Navbar";
 
 export default function Home() {
   const guidelineRef = useRef<HTMLDivElement | null>(null);
+  const {status} = useSession();
+  const router = useRouter();
+
+  useEffect(()=>{
+    if(status === "authenticated")
+    router.push("/home");
+  },[status, router])
+
+
   const toGuideline = () => {
     guidelineRef.current?.scrollIntoView({behavior: "smooth"});
+
   }
   return (
   <>    <Navbar/>
         <div className="flex flex-col ">
-          <section className="bg-neutral-900 h-screen"> 
+          <section className="bg-neutral-900 h-screen pt-[5vh] z-10"> 
               <div className="mx-[5vw] md:mx-[10vw]  lg:mx-[22vw] mt-[10vh]">
                   <p className="font-inter text-4xl md:text-5xl lg:text-6xl  font-[450] text-neutral-100 mt-[4vh] mr-[5vw] md:mr-[15vw]">
                     <span className="font-bold">Bugboard</span> is a purpose-built tool for tracking and squashing bugs together.</p>
@@ -37,7 +48,7 @@ export default function Home() {
               </div>
           </section>
 
-          <section className="bg-neutral-950 h-screen "> 
+          <section className="bg-neutral-950 h-screen z-10"> 
           <div className="mx-[5vw] md:mx-[10vw]  lg:mx-[22vw] mt-[10vh] p-4 ">
                   <p className="font-inter text-6xl md:text-7xl lg:text-8xl  font-[450] text-neutral-100 mt-[4vh] ml-[40vw]">
                    How it works</p>
@@ -50,7 +61,7 @@ export default function Home() {
               </div> 
           </section>
 
-          <section className="bg-neutral-900 h-screen" ref={guidelineRef}> 
+          <section className="bg-neutral-900 h-screen z-10" ref={guidelineRef}> 
           <div className="mx-[5vw] md:mx-[10vw]  lg:mx-[22vw] mt-[10vh] p-4">
                   <p className="font-inter flex justify-start text-6xl md:text-6xl lg:text-8xl  font-[450] text-neutral-100 mt-[4vh] mr-[40vw]">
                    Guidelines </p>

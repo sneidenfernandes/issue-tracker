@@ -17,13 +17,15 @@ const Navbar = () => {
     
 
   return (
-    <nav className='fixed h-15 border-b-[1px] border-neutral-700 top-0 w-full mx-auto flex justify-center items-center z-100'>
+    <nav className='fixed h-15 border-b-[1px] border-neutral-700 top-0 w-full mx-auto flex justify-center items-center z-100 backdrop-blur-lg relative'>
         <div className='flex justify-between'>
             <div className='flex flex-col justify-center'>
                 <div className='flex justify-between items-center min-w-[90vw] md:min-w-[80vw]  lg:min-w-[56vw]'>
-                    <Link href="/">
-                        <BugboardLogo/>
-                    </Link>
+                  
+                  <Link href={"/"}>
+                    <BugboardLogo/>
+                  </Link>
+                    
                     <AuthStatus/>                    
                 </div>
                 
