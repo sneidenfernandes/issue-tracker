@@ -4,6 +4,7 @@ import { createContext, useContext, useState } from "react";
 interface SearchContextType {
     closeSearch: () => void,
     openSearch: () => void,
+    showSearch: boolean
 }
 
 const SearchContext = createContext<SearchContextType | undefined>(undefined);
@@ -13,6 +14,8 @@ export function SearchContextProvider({children}:{children: React.ReactNode}){
 
     const [showSearch, setShowSearch] = useState<boolean>(false)
 
+    
+
 
     const closeSearch = () => {
         setShowSearch(false);
@@ -21,8 +24,6 @@ export function SearchContextProvider({children}:{children: React.ReactNode}){
     const openSearch = () => {
         setShowSearch(true);
     }
-
-
 
 
     const value = {

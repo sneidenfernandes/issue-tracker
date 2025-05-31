@@ -6,6 +6,7 @@ import Sidebar from "../components/Sidebar";
 import { SearchContextProvider } from "../context/SearchContext";
 import { NewIssueContextProvider } from "../context/NewIssueContext"
 import IssueLog from "../components/IssueLog";
+import SearchLog from "../components/SearchLog";
 
 
 
@@ -23,11 +24,12 @@ export default function RootLayout({
           <div className={` ${styles.background}`}>
             <NewIssueContextProvider>
               <SearchContextProvider>
-                <Sidebar/>
-                  <div>
-                    {children}
-                  </div> 
+                  <Sidebar/>
+                    <div>
+                      {children}
+                    </div> 
                   <IssueLog/>
+                  <SearchLog/>
               </SearchContextProvider>
             </NewIssueContextProvider>
           </div>

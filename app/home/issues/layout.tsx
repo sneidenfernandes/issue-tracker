@@ -1,4 +1,5 @@
-import IssueLog from "@/app/components/IssueLog"
+
+import SearchLog from "@/app/components/SearchLog"
 
 
 
@@ -8,7 +9,6 @@ export default function IssuesLayout({children}: {
     return (
         <div className="ml-72">
             {children}
-            <IssueLog/>
         </div>
     )
 }
