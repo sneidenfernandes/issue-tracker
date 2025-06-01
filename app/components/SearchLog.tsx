@@ -40,7 +40,10 @@ const SearchLog = () => {
             transition={{ duration: 0.2, ease: 'easeOut' }}
             ref={searchRef}
             >
-            <div className="absolute top-1/2 left-1/2 w-[50vw] h-[50vh] -translate-x-1/2 -translate-y-1/2 bg-neutral-700 rounded-xl p-5 flex justify-between items-center pointer-events-auto">
+            <div className="absolute  top-1/3 left-1/2 w-[50vw] h-[50vh] -translate-x-1/2 -translate-y-1/2 border-neutral-700 border-[1px] bg-neutral-800 rounded-xl p-5 flex justify-col items-center pointer-events-auto">
+                <div className=''>
+
+                </div>
                 <h1 className="text-white text-4xl">Search Log</h1>
                 <button className="text-6xl text-white" onClick={closeSearch}>×</button>
             </div>
