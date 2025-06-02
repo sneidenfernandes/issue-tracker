@@ -26,8 +26,87 @@ model User {
   Authenticator Authenticator[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  projectMemberships  ProjectMembership[]
+  creater   Issue[]
+  issueMembership  IssueMembership[]
+}
+
+enum ProjectStatus {
+  BACKLOG
+  PLANNED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+enum ProjectPriority {
+  NO_PRIORITY
+  URGENT
+  HIGH
+  MEDIUM
+  LOW
+}
+
+enum IssueStatus {
+  TODO
+  BACKLOG
+  IN_PROGRESS
+  IN_REVIEW
+  DONE
+  CANCELED
+  DUPLICATE
+}
+
+enum IssueLabel {
+  BUG
+  FEATURE
+  IMPROVEMENT
+}
+
+model Project {
+  id              String @id @default(cuid())
+  description     String   
+  status          ProjectStatus @default(PLANNED)
+  projectPriority ProjectPriority @default(NO_PRIORITY)
+  userMemberships ProjectMembership[]
+  createdDate     DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  startDate       DateTime?   
+  completedDate   DateTime?   
+  targetDate      DateTime?
+
+
+}
+
+
+model Issue {
+  id            String @id @default(cuid())
+  description   String
+  createrId     String
+  creater       User @relation(fields: [createrId], references: [id])
+  issueMembership        IssueMembership[]
+  
   
 }
+
+model IssueMembership {
+  createrId   String
+  creater     User @relation(fields: [createrId], references: [id])
+  issueId     String
+  issue       Issue @relation(fields: [issueId], references: [id])
+
+  @@id([createrId, issueId])
+}
+
+
+model ProjectMembership {
+  adminId   String
+  admin     User   @relation(fields: [adminId], references: [id])
+  projectId String
+  project   Project @relation(fields:[projectId], references: [id])
+  @@id([adminId,projectId]) 
+}
+
 
 
 
@@ -47,7 +126,6 @@ model Account {
  
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
- 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
  
   @@id([provider, providerAccountId])
@@ -67,7 +145,6 @@ model VerificationToken {
   identifier String
   token      String
   expires    DateTime
- 
   @@id([identifier, token])
 }
  
