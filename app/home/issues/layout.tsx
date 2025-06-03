@@ -1,7 +1,4 @@
 
-import SearchLog from "@/app/components/SearchLog"
-
-
 
 export default function IssuesLayout({children}: {
     children: React.ReactNode

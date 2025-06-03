@@ -130,6 +130,34 @@ exports.Prisma.UserScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.ProjectScalarFieldEnum = {
+  id: 'id',
+  description: 'description',
+  status: 'status',
+  projectPriority: 'projectPriority',
+  createdDate: 'createdDate',
+  updatedAt: 'updatedAt',
+  startDate: 'startDate',
+  completedDate: 'completedDate',
+  targetDate: 'targetDate'
+};
+
+exports.Prisma.IssueScalarFieldEnum = {
+  id: 'id',
+  description: 'description',
+  createrId: 'createrId'
+};
+
+exports.Prisma.IssueMembershipScalarFieldEnum = {
+  createrId: 'createrId',
+  issueId: 'issueId'
+};
+
+exports.Prisma.ProjectMembershipScalarFieldEnum = {
+  adminId: 'adminId',
+  projectId: 'projectId'
+};
+
 exports.Prisma.AccountScalarFieldEnum = {
   userId: 'userId',
   type: 'type',
@@ -186,9 +214,87 @@ exports.Prisma.NullsOrder = {
   last: 'last'
 };
 
+exports.Prisma.UserOrderByRelevanceFieldEnum = {
+  id: 'id',
+  name: 'name',
+  email: 'email',
+  image: 'image'
+};
+
+exports.Prisma.ProjectOrderByRelevanceFieldEnum = {
+  id: 'id',
+  description: 'description'
+};
+
+exports.Prisma.IssueOrderByRelevanceFieldEnum = {
+  id: 'id',
+  description: 'description',
+  createrId: 'createrId'
+};
+
+exports.Prisma.IssueMembershipOrderByRelevanceFieldEnum = {
+  createrId: 'createrId',
+  issueId: 'issueId'
+};
+
+exports.Prisma.ProjectMembershipOrderByRelevanceFieldEnum = {
+  adminId: 'adminId',
+  projectId: 'projectId'
+};
+
+exports.Prisma.AccountOrderByRelevanceFieldEnum = {
+  userId: 'userId',
+  type: 'type',
+  provider: 'provider',
+  providerAccountId: 'providerAccountId',
+  refresh_token: 'refresh_token',
+  access_token: 'access_token',
+  token_type: 'token_type',
+  scope: 'scope',
+  id_token: 'id_token',
+  session_state: 'session_state'
+};
+
+exports.Prisma.SessionOrderByRelevanceFieldEnum = {
+  sessionToken: 'sessionToken',
+  userId: 'userId'
+};
+
+exports.Prisma.VerificationTokenOrderByRelevanceFieldEnum = {
+  identifier: 'identifier',
+  token: 'token'
+};
+
+exports.Prisma.AuthenticatorOrderByRelevanceFieldEnum = {
+  credentialID: 'credentialID',
+  userId: 'userId',
+  providerAccountId: 'providerAccountId',
+  credentialPublicKey: 'credentialPublicKey',
+  credentialDeviceType: 'credentialDeviceType',
+  transports: 'transports'
+};
+exports.ProjectStatus = exports.$Enums.ProjectStatus = {
+  BACKLOG: 'BACKLOG',
+  PLANNED: 'PLANNED',
+  IN_PROGRESS: 'IN_PROGRESS',
+  COMPLETED: 'COMPLETED',
+  CANCELLED: 'CANCELLED'
+};
+
+exports.ProjectPriority = exports.$Enums.ProjectPriority = {
+  NO_PRIORITY: 'NO_PRIORITY',
+  URGENT: 'URGENT',
+  HIGH: 'HIGH',
+  MEDIUM: 'MEDIUM',
+  LOW: 'LOW'
+};
 
 exports.Prisma.ModelName = {
   User: 'User',
+  Project: 'Project',
+  Issue: 'Issue',
+  IssueMembership: 'IssueMembership',
+  ProjectMembership: 'ProjectMembership',
   Account: 'Account',
   Session: 'Session',
   VerificationToken: 'VerificationToken',

@@ -2,7 +2,7 @@
 import React, { useEffect, useRef } from 'react';
 import useNewIssueContext from '../context/NewIssueContext';
 import {motion} from "motion/react";
-import CubeScan from 'iconoir/icons/cube-scan.svg';
+
 
 
 
