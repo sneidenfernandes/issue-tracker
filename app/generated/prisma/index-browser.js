@@ -132,7 +132,9 @@ exports.Prisma.UserScalarFieldEnum = {
 
 exports.Prisma.ProjectScalarFieldEnum = {
   id: 'id',
+  name: 'name',
   description: 'description',
+  createrId: 'createrId',
   status: 'status',
   projectPriority: 'projectPriority',
   createdDate: 'createdDate',
@@ -142,8 +144,15 @@ exports.Prisma.ProjectScalarFieldEnum = {
   targetDate: 'targetDate'
 };
 
+exports.Prisma.ProjectMembershipScalarFieldEnum = {
+  collaboraterId: 'collaboraterId',
+  projectId: 'projectId',
+  role: 'role'
+};
+
 exports.Prisma.IssueScalarFieldEnum = {
   id: 'id',
+  name: 'name',
   description: 'description',
   createrId: 'createrId'
 };
@@ -151,11 +160,6 @@ exports.Prisma.IssueScalarFieldEnum = {
 exports.Prisma.IssueMembershipScalarFieldEnum = {
   createrId: 'createrId',
   issueId: 'issueId'
-};
-
-exports.Prisma.ProjectMembershipScalarFieldEnum = {
-  adminId: 'adminId',
-  projectId: 'projectId'
 };
 
 exports.Prisma.AccountScalarFieldEnum = {
@@ -223,11 +227,20 @@ exports.Prisma.UserOrderByRelevanceFieldEnum = {
 
 exports.Prisma.ProjectOrderByRelevanceFieldEnum = {
   id: 'id',
-  description: 'description'
+  name: 'name',
+  description: 'description',
+  createrId: 'createrId'
+};
+
+exports.Prisma.ProjectMembershipOrderByRelevanceFieldEnum = {
+  collaboraterId: 'collaboraterId',
+  projectId: 'projectId',
+  role: 'role'
 };
 
 exports.Prisma.IssueOrderByRelevanceFieldEnum = {
   id: 'id',
+  name: 'name',
   description: 'description',
   createrId: 'createrId'
 };
@@ -235,11 +248,6 @@ exports.Prisma.IssueOrderByRelevanceFieldEnum = {
 exports.Prisma.IssueMembershipOrderByRelevanceFieldEnum = {
   createrId: 'createrId',
   issueId: 'issueId'
-};
-
-exports.Prisma.ProjectMembershipOrderByRelevanceFieldEnum = {
-  adminId: 'adminId',
-  projectId: 'projectId'
 };
 
 exports.Prisma.AccountOrderByRelevanceFieldEnum = {
@@ -292,9 +300,9 @@ exports.ProjectPriority = exports.$Enums.ProjectPriority = {
 exports.Prisma.ModelName = {
   User: 'User',
   Project: 'Project',
+  ProjectMembership: 'ProjectMembership',
   Issue: 'Issue',
   IssueMembership: 'IssueMembership',
-  ProjectMembership: 'ProjectMembership',
   Account: 'Account',
   Session: 'Session',
   VerificationToken: 'VerificationToken',

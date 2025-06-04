@@ -23,13 +23,14 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
-  // Optional for WebAuthn support
+  projects      Project[]
   Authenticator Authenticator[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   projectMemberships  ProjectMembership[]
   creater   Issue[]
   issueMembership  IssueMembership[]
+
 }
 
 enum ProjectStatus {
@@ -66,7 +67,10 @@ enum IssueLabel {
 
 model Project {
   id              String @id @default(cuid())
-  description     String   
+  name            String
+  description     String 
+  createrId       String
+  creater         User    @relation(fields: [createrId], references: [id])  
   status          ProjectStatus @default(PLANNED)
   projectPriority ProjectPriority @default(NO_PRIORITY)
   userMemberships ProjectMembership[]
@@ -75,16 +79,29 @@ model Project {
   startDate       DateTime?   
   completedDate   DateTime?   
   targetDate      DateTime?
-
-
 }
 
 
+
+
+
+model ProjectMembership {
+  collaboraterId   String
+  collaborater     User   @relation(fields: [collaboraterId], references: [id])
+  projectId        String
+  project          Project @relation(fields:[projectId], references: [id])
+  role             String
+  @@id([collaboraterId,projectId]) 
+}
+
+
+
 model Issue {
-  id            String @id @default(cuid())
-  description   String
-  createrId     String
-  creater       User @relation(fields: [createrId], references: [id])
+  id                     String @id @default(cuid())
+  name                   String
+  description            String
+  createrId              String
+  creater                User @relation(fields: [createrId], references: [id])
   issueMembership        IssueMembership[]
   
   
@@ -99,14 +116,6 @@ model IssueMembership {
   @@id([createrId, issueId])
 }
 
-
-model ProjectMembership {
-  adminId   String
-  admin     User   @relation(fields: [adminId], references: [id])
-  projectId String
-  project   Project @relation(fields:[projectId], references: [id])
-  @@id([adminId,projectId]) 
-}
 
 
  

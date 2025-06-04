@@ -1,52 +1,40 @@
-import authOptions from "@/app/auth/authOptions";
+import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth";
-import {prisma} from "@/lib/prisma"
 
 
-// Get all projects
-export default async function GET(){
+export async function GET(){
 
-    const session = await getServerSession(authOptions);
+    const session = await getServerSession();
 
     if(!session){
-        return new Response(JSON.stringify("Unauthorized: Session not found"));
-    }
-
-    try{
-        const projects = await prisma.project.findMany();
-        
-        return Response.json(projects);
-
-    }
-    catch(e){
-
         return new Response(
             JSON.stringify({
-                error: "Database error",
-                message: String(e)
+                message: "Unauthorized access"
             }),
             {
-                headers: {
-                    "Content-Type": "application/json",
-                    
-                },
-                status: 500
+                status: 401
             }
         )
     }
 
-    
+    try{
+        const issues = await prisma.issue.findMany();
+        return Response.json(issues);
 
-   
-
-    
+    }catch(e){
+        
+        return Response.json({
+            error: "Database error",
+            message: String(e)
+        })
+    }
 }
 
-
-// Create project
 export async function POST(request: Request){   
 
     const session = await getServerSession();
+    
+    
 
     if(!session){
 
@@ -65,7 +53,7 @@ export async function POST(request: Request){
 
 
 
-        const {name, description} : {name: string, description: string} = await request.json()
+        const {name, description}: {name: string, description: string} = await request.json()
 
         const createrId = await prisma.user.findUnique({
             where: {
@@ -74,16 +62,15 @@ export async function POST(request: Request){
         });
 
 
-
-        const newProject = await prisma.project.create({
+        const newIssue = await prisma.issue.create({
             data: {
-                name: name,
-                description: description,
+                name: String(name),
+                description: String(description),
                 createrId: String(createrId)
             }
         })
 
-        return  Response.json(newProject);
+        return  Response.json(newIssue);
 
         
     }catch(e){
