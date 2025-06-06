@@ -145,7 +145,7 @@ exports.Prisma.ProjectScalarFieldEnum = {
 };
 
 exports.Prisma.ProjectMembershipScalarFieldEnum = {
-  collaboraterId: 'collaboraterId',
+  memberId: 'memberId',
   projectId: 'projectId',
   role: 'role'
 };
@@ -154,12 +154,16 @@ exports.Prisma.IssueScalarFieldEnum = {
   id: 'id',
   name: 'name',
   description: 'description',
-  createrId: 'createrId'
+  createrId: 'createrId',
+  label: 'label',
+  status: 'status',
+  projectId: 'projectId'
 };
 
 exports.Prisma.IssueMembershipScalarFieldEnum = {
-  createrId: 'createrId',
-  issueId: 'issueId'
+  memberId: 'memberId',
+  issueId: 'issueId',
+  role: 'role'
 };
 
 exports.Prisma.AccountScalarFieldEnum = {
@@ -233,7 +237,7 @@ exports.Prisma.ProjectOrderByRelevanceFieldEnum = {
 };
 
 exports.Prisma.ProjectMembershipOrderByRelevanceFieldEnum = {
-  collaboraterId: 'collaboraterId',
+  memberId: 'memberId',
   projectId: 'projectId',
   role: 'role'
 };
@@ -242,12 +246,14 @@ exports.Prisma.IssueOrderByRelevanceFieldEnum = {
   id: 'id',
   name: 'name',
   description: 'description',
-  createrId: 'createrId'
+  createrId: 'createrId',
+  projectId: 'projectId'
 };
 
 exports.Prisma.IssueMembershipOrderByRelevanceFieldEnum = {
-  createrId: 'createrId',
-  issueId: 'issueId'
+  memberId: 'memberId',
+  issueId: 'issueId',
+  role: 'role'
 };
 
 exports.Prisma.AccountOrderByRelevanceFieldEnum = {
@@ -295,6 +301,22 @@ exports.ProjectPriority = exports.$Enums.ProjectPriority = {
   HIGH: 'HIGH',
   MEDIUM: 'MEDIUM',
   LOW: 'LOW'
+};
+
+exports.IssueLabel = exports.$Enums.IssueLabel = {
+  BUG: 'BUG',
+  FEATURE: 'FEATURE',
+  IMPROVEMENT: 'IMPROVEMENT'
+};
+
+exports.IssueStatus = exports.$Enums.IssueStatus = {
+  TODO: 'TODO',
+  BACKLOG: 'BACKLOG',
+  IN_PROGRESS: 'IN_PROGRESS',
+  IN_REVIEW: 'IN_REVIEW',
+  DONE: 'DONE',
+  CANCELED: 'CANCELED',
+  DUPLICATE: 'DUPLICATE'
 };
 
 exports.Prisma.ModelName = {

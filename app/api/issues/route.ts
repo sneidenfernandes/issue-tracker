@@ -18,7 +18,22 @@ export async function GET(){
     }
 
     try{
-        const issues = await prisma.issue.findMany();
+
+        const userId = await prisma.user.findUnique({
+            where:{
+                email: String(session.user?.email)
+            }
+        });
+
+
+
+        const issues = await prisma.issueMembership.findMany({
+            where:{
+                memberId: String(userId)
+            }
+        });
+
+
         return Response.json(issues);
 
     }catch(e){
@@ -33,7 +48,6 @@ export async function GET(){
 export async function POST(request: Request){   
 
     const session = await getServerSession();
-    
     
 
     if(!session){
@@ -85,9 +99,4 @@ export async function POST(request: Request){
 
 
   
-
-
-    
-    
-
 }

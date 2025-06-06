@@ -19,7 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="bg-neutral-800">
+      <body className="bg-neutral-950 z-1">
      
         <AuthProvider>
      

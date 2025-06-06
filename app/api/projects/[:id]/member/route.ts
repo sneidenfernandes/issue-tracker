@@ -27,8 +27,8 @@ export async function POST(request: Request,
 
     const existingMembership = await prisma.projectMembership.findUnique({
         where:{
-            collaboraterId_projectId:{
-                collaboraterId: collaboraterId,
+            memberId_projectId:{
+                memberId: collaboraterId,
                 projectId: id
             }
         }
@@ -42,7 +42,7 @@ export async function POST(request: Request,
 
     const newCollaborater = await prisma.projectMembership.create({
         data: {
-            collaboraterId: collaboraterId,
+            memberId: collaboraterId,
             projectId: id,
             role: String(role)
         }
@@ -87,7 +87,7 @@ export async function GET(request: Request,
                 projectId: id
             },
             include:{
-                collaborater: true
+                member: true
             }
         })
 

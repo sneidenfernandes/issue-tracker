@@ -79,9 +79,18 @@ export async function POST(request: Request){
             data: {
                 name: name,
                 description: description,
-                createrId: String(createrId)
+                createrId: String(createrId),
+                projectMemberships:{
+                    create:[
+                        {memberId: String(createrId), role: "OWNER"}
+                    ]
+                }
+                
             }
         })
+
+
+        
 
         return  Response.json(newProject);
 

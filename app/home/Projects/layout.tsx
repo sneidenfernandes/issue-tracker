@@ -1,7 +1,7 @@
 
 
 
-export default function DashboardLayout({children}: {
+export default function ProjectLayout({children}: {
     children: React.ReactNode
 }){
     return (

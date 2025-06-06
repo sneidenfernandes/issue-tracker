@@ -1,6 +1,5 @@
 
 import type { Metadata } from "next";
-import styles from "../page.module.css"
 import "../globals.css";
 import Sidebar from "../components/Sidebar";
 import { SearchContextProvider } from "../context/SearchContext";
@@ -21,11 +20,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-          <div className={` ${styles.background}`}>
+          <div>
             <NewIssueContextProvider>
               <SearchContextProvider>
                   <Sidebar/>
-                    <div>
+                    <div className="bg-neutral-900 ml-63  rounded-lg  h-[95vh] m-[1vh] z-5 border-neutral-800 border-[1px]">
                       {children}
                     </div> 
                   <IssueLog/>

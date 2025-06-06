@@ -16,20 +16,20 @@ datasource db {
 }
 
 model User {
-  id            String          @id @default(cuid())
-  name          String?
-  email         String          @unique
-  emailVerified DateTime?
-  image         String?
-  accounts      Account[]
-  sessions      Session[]
-  projects      Project[]
-  Authenticator Authenticator[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id                  String          @id @default(cuid())
+  name                String?
+  email               String          @unique
+  emailVerified       DateTime?
+  image               String?
+  accounts            Account[]
+  sessions            Session[]
+  projects            Project[]
+  Authenticator       Authenticator[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
   projectMemberships  ProjectMembership[]
-  creater   Issue[]
-  issueMembership  IssueMembership[]
+  creater             Issue[]
+  issueMembership     IssueMembership[]
 
 }
 
@@ -66,34 +66,32 @@ enum IssueLabel {
 }
 
 model Project {
-  id              String @id @default(cuid())
-  name            String
-  description     String 
-  createrId       String
-  creater         User    @relation(fields: [createrId], references: [id])  
-  status          ProjectStatus @default(PLANNED)
-  projectPriority ProjectPriority @default(NO_PRIORITY)
-  userMemberships ProjectMembership[]
-  createdDate     DateTime    @default(now())
-  updatedAt       DateTime    @updatedAt
-  startDate       DateTime?   
-  completedDate   DateTime?   
-  targetDate      DateTime?
+  id                 String @id @default(cuid())
+  name               String
+  description        String 
+  createrId          String
+  creater            User    @relation(fields: [createrId], references: [id]) 
+  status             ProjectStatus @default(PLANNED)
+  projectPriority    ProjectPriority @default(NO_PRIORITY)
+  projectMemberships ProjectMembership[]
+  issues              Issue[]
+  createdDate        DateTime    @default(now())
+  updatedAt          DateTime    @updatedAt
+  startDate          DateTime?   
+  completedDate      DateTime?   
+  targetDate         DateTime?
 }
-
-
-
 
 
 model ProjectMembership {
-  collaboraterId   String
-  collaborater     User   @relation(fields: [collaboraterId], references: [id])
+  memberId         String
+  member           User   @relation(fields: [memberId], references: [id])
   projectId        String
   project          Project @relation(fields:[projectId], references: [id])
   role             String
-  @@id([collaboraterId,projectId]) 
-}
 
+  @@id([memberId,projectId]) 
+}
 
 
 model Issue {
@@ -103,22 +101,27 @@ model Issue {
   createrId              String
   creater                User @relation(fields: [createrId], references: [id])
   issueMembership        IssueMembership[]
-  
-  
+  label                  IssueLabel @default(FEATURE)
+  status                 IssueStatus @default(TODO)
+  projectId              String
+  project                Project @relation(fields: [projectId], references: [id])
+
 }
 
 model IssueMembership {
-  createrId   String
-  creater     User @relation(fields: [createrId], references: [id])
-  issueId     String
-  issue       Issue @relation(fields: [issueId], references: [id])
+  memberId            String
+  member              User    @relation(fields: [memberId], references: [id])
+  issueId             String
+  issue               Issue   @relation(fields: [issueId], references: [id])
+  role                String
 
-  @@id([createrId, issueId])
+  @@id([memberId, issueId])
 }
 
 
 
- 
+
+
 model Account {
   userId            String
   type              String
@@ -131,9 +134,8 @@ model Account {
   scope             String?
   id_token          String?
   session_state     String?
- 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
  
   @@id([provider, providerAccountId])
@@ -144,9 +146,8 @@ model Session {
   userId       String
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
- 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }
  
 model VerificationToken {
@@ -156,7 +157,7 @@ model VerificationToken {
   @@id([identifier, token])
 }
  
-// Optional for WebAuthn support
+
 model Authenticator {
   credentialID         String  @unique
   userId               String

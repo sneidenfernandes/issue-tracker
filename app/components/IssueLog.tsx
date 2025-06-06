@@ -10,6 +10,8 @@ const IssueLog = () => {
   const { visible, closeIssueLog } = useNewIssueContext();
   const issueRef = useRef<HTMLDivElement | null>(null);
 
+
+
   useEffect(()=>{
     function HandleOutsideIssueLog(event: Event){
         if(issueRef.current && !issueRef.current.contains(event.target as Node)){
@@ -35,9 +37,9 @@ const IssueLog = () => {
             transition={{ duration: 0.2, ease: 'easeOut' }}
             ref={issueRef}
             >
-            <div className="absolute top-1/3 left-1/2 w-[40vw] h-[30vh] border-neutral-700 border-[1px] -translate-x-1/2 -translate-y-1/2 bg-neutral-800 rounded-xl p-5 flex justify-between">
+            <div className="absolute top-1/3 left-1/2 w-[40vw] h-[30vh] bg-neutral-900 border-neutral-700 border-[1px] -translate-x-1/2 -translate-y-1/2 rounded-xl p-5 flex justify-between">
                  <div className='w-full flex flex-row justify-end'>
-                  
+                    <input type="text" placeholder=''/>
                  </div>
             </div>
         </motion.div>
