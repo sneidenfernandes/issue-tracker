@@ -99,8 +99,8 @@ const ProjectLog = () => {
                     />
                     </div> 
                     <div className='child border-neutral-700 border-t p-4 flex justify-end items-center space-x-2'>
-                        <Button variant="ghost" onClick={closeProjectLog}>Cancel</Button>
-                        <Button>Create Project</Button>
+                        <Button onClick={closeProjectLog}>Cancel</Button>
+                        <Button onClick={closeProjectLog}>Create Project</Button>
                     </div>
                 </div> 
                 

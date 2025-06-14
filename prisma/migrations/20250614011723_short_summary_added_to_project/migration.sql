@@ -1,0 +1,2 @@
+-- CreateEnum
+CREATE TYPE "IssueRole" AS ENUM ('OWNER', 'REVIEWER', 'CONTRIBUTER', 'APPROVER');

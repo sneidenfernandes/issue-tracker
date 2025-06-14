@@ -64,6 +64,13 @@ enum IssueLabel {
   IMPROVEMENT
 }
 
+enum IssueRole {
+  OWNER
+  REVIEWER
+  CONTRIBUTER
+  APPROVER
+}
+
 model Project {
   id                 String              @id @default(cuid())
   name               String

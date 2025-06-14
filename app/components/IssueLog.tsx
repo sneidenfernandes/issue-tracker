@@ -17,9 +17,7 @@ const IssueLog = () => {
         if(issueRef.current && !issueRef.current.contains(event.target as Node)){
             closeIssueLog();
         }
-      }
-
-      console.log(visible);
+      }    
 
         document.addEventListener("click", HandleOutsideIssueLog);
 

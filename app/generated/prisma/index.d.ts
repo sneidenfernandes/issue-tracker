@@ -106,6 +106,16 @@ export const IssueLabel: {
 
 export type IssueLabel = (typeof IssueLabel)[keyof typeof IssueLabel]
 
+
+export const IssueRole: {
+  OWNER: 'OWNER',
+  REVIEWER: 'REVIEWER',
+  CONTRIBUTER: 'CONTRIBUTER',
+  APPROVER: 'APPROVER'
+};
+
+export type IssueRole = (typeof IssueRole)[keyof typeof IssueRole]
+
 }
 
 export type ProjectStatus = $Enums.ProjectStatus
@@ -123,6 +133,10 @@ export const IssueStatus: typeof $Enums.IssueStatus
 export type IssueLabel = $Enums.IssueLabel
 
 export const IssueLabel: typeof $Enums.IssueLabel
+
+export type IssueRole = $Enums.IssueRole
+
+export const IssueRole: typeof $Enums.IssueRole
 
 /**
  * ##  Prisma Client ʲˢ
