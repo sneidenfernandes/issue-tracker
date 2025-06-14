@@ -45,7 +45,7 @@ const ProjectLog = () => {
             ref={searchRef}
             >
             <div className="absolute bottom-1/5 md:top-2/5 md:left-2/5 w-[90vw] md:w-[65vw] lg:w-[50vw] parent h-[85vh] md:-translate-x-1/2 md:-translate-y-1/2 border-neutral-700 border-[1px] bg-black rounded-xl  flex flex-col justify-between items-center pointer-events-auto">
-                <div className='w-full h-full bg-neutral-800/80 rounded-xl'>
+                <div className='w-full h-full bg-neutral-800/80 rounded-xl flex flex-col'>
 
                     {/* top */}
                     <div className='h-10 flex justify-between items-center px-5 mt-2'>
@@ -75,11 +75,11 @@ const ProjectLog = () => {
                     {/* Description Input */}
 
                     <div className='child mx-6 md:mx-8 mt-2 h-12 '>
-                        <input type="text" placeholder='Project name' className=' h-full w-full p-2 text-2xl  text-neutral-100 outline-none focus:outline-none focus:ring-0 placeholder:font-light placeholder:text-neutral-500'/>
+                        <input type="text" placeholder='Project name' className='bg-transparent h-full w-full p-2 text-2xl  text-neutral-100 outline-none focus:outline-none focus:ring-0 placeholder:font-light placeholder:text-neutral-500'/>
                     </div>
 
                     <div className='child mx-6 md:mx-8 h-6'>
-                        <input type="text" placeholder='Add a short summary' className=' h-full w-full p-2 text-md  font-light text-neutral-100 outline-none focus:outline-none focus:ring-0 placeholder:text-neutral-500'/>
+                        <input type="text" placeholder='Add a short summary' className='bg-transparent h-full w-full p-2 text-md  font-light text-neutral-100 outline-none focus:outline-none focus:ring-0 placeholder:text-neutral-500'/>
                     </div>
 
                     <div className='h-10 mx-8 md:mx-10 mt-4 flex md:max-w-[55%] justify-start space-x-3'>
@@ -92,21 +92,16 @@ const ProjectLog = () => {
 
                     <div className='h-[0.5px] mt-2 border-neutral-700 border-b-[0.5px] mx-7 md:mx-8'></div>
 
-                    <div className='child mx-6 md:mx-8 mt-7 h-[59%]'>
+                    <div className='child mx-6 md:mx-8 mt-7 flex-grow'>
                     <textarea
                         placeholder='Write a description, a project brief, or collect ideas'
-                        className='h-full w-full p-2 text-md font-light text-neutral-100 outline-none focus:outline-none focus:ring-0 placeholder:text-neutral-500 placeholder:font-light resize-none'
+                        className='bg-transparent h-full w-full p-2 text-md font-light text-neutral-100 outline-none focus:outline-none focus:ring-0 placeholder:text-neutral-500 placeholder:font-light resize-none'
                     />
                     </div> 
-                  <div className='child border-neutral-700 border-t h-auto p-1 flex justify-end items-center min-h-30'>
-                    <div>
-
+                    <div className='child border-neutral-700 border-t p-4 flex justify-end items-center space-x-2'>
+                        <Button variant="ghost" onClick={closeProjectLog}>Cancel</Button>
+                        <Button>Create Project</Button>
                     </div>
-                        <div>
-                            <Button>Create Project</Button>
-                            <Button>Cancel</Button>
-                        </div>
-                  </div>
                 </div> 
                 
             </div>
