@@ -1,4 +1,4 @@
-import authOptions from "@/app/auth/authOptions";
+
 import { getServerSession } from "next-auth";
 import {prisma} from "@/lib/prisma"
 
@@ -6,11 +6,6 @@ import {prisma} from "@/lib/prisma"
 // Get all projects
 export default async function GET(){
 
-    const session = await getServerSession(authOptions);
-
-    if(!session){
-        return new Response(JSON.stringify("Unauthorized: Session not found"));
-    }
 
     try{
         const projects = await prisma.project.findMany();
@@ -28,7 +23,6 @@ export default async function GET(){
             {
                 headers: {
                     "Content-Type": "application/json",
-                    
                 },
                 status: 500
             }
@@ -100,8 +94,7 @@ export async function POST(request: Request){
         return new Response(
                             JSON.stringify({
                                     error: "Something went wrong.Check the error messages.",
-                                    message: String(e)
-                                        })
+                                    message: String(e)})
         )
     }
 

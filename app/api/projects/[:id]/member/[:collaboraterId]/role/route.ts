@@ -1,23 +1,13 @@
 import { prisma } from "@/lib/prisma";
-import { getServerSession } from "next-auth";
-
 
 
 export async function PATCH(request:Request,
     {params}: {params: {id: string, collaboraterId: string}}){
 
-    const session = getServerSession();
-    if(!session){
-
-        return Response.json({
-            message: "Unauthorized. Session does not exist."
-        })
-    }
 
     try{
 
         const {id, collaboraterId} = params;
-
         const existingCollaborater = await prisma.projectMembership.findUnique({
             where:{
                 memberId_projectId:{
@@ -28,9 +18,7 @@ export async function PATCH(request:Request,
         })
 
         if(!existingCollaborater){
-            return Response.json({
-                message: "Collaborater not found."
-            })
+            return Response.json({message: "Collaborater not found."})
         }
 
         const {role} = await request.json();

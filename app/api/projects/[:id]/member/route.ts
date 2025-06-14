@@ -8,18 +8,7 @@ export async function POST(request: Request,
 
 
     try {
-    const session =  await getServerSession();
 
-    if(!session){
-        return new Response(
-            JSON.stringify({
-                message: "Unauthorized. Session not found!"
-            }),
-            {
-                status: 500
-            }
-        )
-    }
 
     const body = await request.json()
     const {collaboraterId, role} = body;

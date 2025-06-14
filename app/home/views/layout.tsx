@@ -1,6 +1,4 @@
-
-
-export default function NotesLayout({children}: {
+export default function ProjectLayout({children}: {
     children: React.ReactNode
 }){
     return (

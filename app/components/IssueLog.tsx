@@ -19,6 +19,8 @@ const IssueLog = () => {
         }
       }
 
+      console.log(visible);
+
         document.addEventListener("click", HandleOutsideIssueLog);
 
         return () => document.removeEventListener("click", HandleOutsideIssueLog);
@@ -30,17 +32,15 @@ const IssueLog = () => {
   return (
 
         <motion.div 
-            className="fixed left-[280px] w-[calc(100vw-280px)] h-screen pointer-events-none z-50 bg-opacity-50 border-neutral-400"
+            className="fixed left-[280px] w-[calc(100vw-280px)] h-screen pointer-events-none z-50 bg-opacity-50"
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.2, ease: 'easeOut' }}
             ref={issueRef}
             >
-            <div className="absolute top-1/3 left-1/2 w-[40vw] h-[30vh] bg-neutral-900 border-neutral-700 border-[1px] -translate-x-1/2 -translate-y-1/2 rounded-xl p-5 flex justify-between">
-                 <div className='w-full flex flex-row justify-end'>
-                    <input type="text" placeholder=''/>
-                 </div>
+            <div className="absolute md:top-1/5 md:left-2/5 w-[40vw] h-[30vh] bg-neutral-800 border-neutral-700 border-[1px] -translate-x-1/2 -translate-y-1/2 rounded-xl p-5 flex justify-between">
+                
             </div>
         </motion.div>
     

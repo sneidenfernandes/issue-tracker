@@ -6,18 +6,6 @@ import {z} from "zod"
 export async function GET(_request: Request,
     {params}: {params: {id: string}}) {
 
-    const session = await getServerSession();
-
-    if(!session){
-        return new Response(
-            JSON.stringify({
-                message: "Unauthorized. Session not found!"
-            }),
-            {
-                status: 500
-            }
-        )
-    }
     
     try{
        
@@ -95,19 +83,6 @@ export async function DELETE(_request: Request,
 export async function PATCH(request: Request,
     {params}: {params: {id: string}}
 ){
-    
-    const session = await getServerSession();
-    if(!session){
-        return new Response(
-            JSON.stringify({
-                message: "Unauthorized. Session not found!"
-            }),
-            {
-                status: 500
-            }
-        )
-    }
-
     
 
     try{

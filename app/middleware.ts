@@ -8,8 +8,8 @@ export function middleware(request: NextRequest) {
 
   if (!token) {
     return NextResponse.json(
-      { message: "Unauthorized. Session not found!" },
-      { status: 401 }
+      { message: "Unauthorized. Session not found!"},
+      { status: 401}
     );
   }
 

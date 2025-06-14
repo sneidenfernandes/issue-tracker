@@ -2,10 +2,10 @@
 import type { Metadata } from "next";
 import "../globals.css";
 import Sidebar from "../components/Sidebar";
-import { SearchContextProvider } from "../context/SearchContext";
+import { ProjectLogContextProvider } from "../context/ProjectLogContext";
 import { NewIssueContextProvider } from "../context/NewIssueContext"
 import IssueLog from "../components/IssueLog";
-import SearchLog from "../components/SearchLog";
+import ProjectLog from "../components/ProjectLog";
 
 
 
@@ -19,17 +19,19 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+  
   return (
           <div>
             <NewIssueContextProvider>
-              <SearchContextProvider>
+              <ProjectLogContextProvider>
                   <Sidebar/>
-                    <div className="bg-neutral-900 ml-63  rounded-lg  h-[95vh] m-[1vh] z-5 border-neutral-800 border-[1px]">
+                    <div className={`bg-neutral-900/60 md:ml-63  rounded  h-[95vh] m-[1vh] border-neutral-800 border-[1px]`}>
                       {children}
+                      <IssueLog/>
+                      <ProjectLog/>
                     </div> 
-                  <IssueLog/>
-                  <SearchLog/>
-              </SearchContextProvider>
+              </ProjectLogContextProvider>
             </NewIssueContextProvider>
           </div>
   );
