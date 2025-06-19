@@ -75,6 +75,7 @@ enum IssueRole {
 model Project {
   id                 String @id @default(cuid())
   name               String
+  shortSummary       String
   description        String 
   createrId          String
   creater            User    @relation(fields: [createrId], references: [id]) 

@@ -1,31 +1,35 @@
 'use client';
-import React,{ useEffect, useRef} from 'react';
+import React from 'react';
 import {motion} from "motion/react";
 import useProjectLogContext from '../context/ProjectLogContext';
 import GreenProfile from './icons/profile-green-logo';
 import { ProjectIcon } from './icons/WorkspaceIcons';
-import PropertySelectorButton from './PropertySelectorButton';
 import {Button} from "@/components/ui/button";
+import { Combobox } from './ComboBox';
+import { priorityOptions, statusOptions } from './OptionsLists';
+import { DatePicker } from './DatePicker';
+import { StartDateIcon } from './icons/ProjectProperyIcons';
+
 
 
 const ProjectLog = () => {
   
-  const searchRef = useRef<HTMLDivElement | null>(null);
-  const {showProjectLog, closeProjectLog} = useProjectLogContext();
+  
+  const {showProjectLog, closeProjectLog,projectLogRef} = useProjectLogContext();
 
 
-  useEffect(() => {
-      function handleOutsideClick(event: MouseEvent) {
-        if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
-            closeProjectLog();
-        }
-      }
+//   useEffect(() => {
+//       function handleOutsideClick(event: MouseEvent) {
+//         if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
+//             closeProjectLog();
+//         }
+//       }
     
-      document.addEventListener("click", handleOutsideClick);
-      return () => document.removeEventListener("click", handleOutsideClick);
+//       document.addEventListener("click", handleOutsideClick);
+//       return () => document.removeEventListener("click", handleOutsideClick);
    
     
-  }, [showProjectLog]);
+//   }, [showProjectLog]);
 
 
 
@@ -42,7 +46,7 @@ const ProjectLog = () => {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.2, ease: 'easeOut' }}
-            ref={searchRef}
+            ref={projectLogRef}
             >
             <div className="absolute bottom-1/5 md:top-2/5 md:left-2/5 w-[90vw] md:w-[65vw] lg:w-[50vw] parent h-[85vh] md:-translate-x-1/2 md:-translate-y-1/2 border-neutral-700 border-[1px] bg-black rounded-xl  flex flex-col justify-between items-center pointer-events-auto">
                 <div className='w-full h-full bg-neutral-800/80 rounded-xl flex flex-col'>
@@ -73,7 +77,6 @@ const ProjectLog = () => {
                         </div>       
 
                     {/* Description Input */}
-
                     <div className='child mx-6 md:mx-8 mt-2 h-12 '>
                         <input type="text" placeholder='Project name' className='bg-transparent h-full w-full p-2 text-2xl  text-neutral-100 outline-none focus:outline-none focus:ring-0 placeholder:font-light placeholder:text-neutral-500'/>
                     </div>
@@ -82,12 +85,11 @@ const ProjectLog = () => {
                         <input type="text" placeholder='Add a short summary' className='bg-transparent h-full w-full p-2 text-md  font-light text-neutral-100 outline-none focus:outline-none focus:ring-0 placeholder:text-neutral-500'/>
                     </div>
 
-                    <div className='h-10 mx-8 md:mx-10 mt-4 flex md:max-w-[55%] justify-start space-x-3'>
-                        <PropertySelectorButton propertyType='Status'/>
-                        <PropertySelectorButton/>
-                        <PropertySelectorButton collapseLG={true}/>
-                        <PropertySelectorButton collapseLG={true}/>
-                        <PropertySelectorButton collapseLG={true}/>
+                    <div className='h-10 mt-10 px-8 flex justify-start w-full space-x-4'>
+                            <Combobox type="status" options={statusOptions}/>
+                            <Combobox type="priority" options={priorityOptions}/>
+                            <DatePicker label="Start Date" icon={<StartDateIcon/>}/>
+                            
                     </div>
 
                     <div className='h-[0.5px] mt-2 border-neutral-700 border-b-[0.5px] mx-7 md:mx-8'></div>
@@ -99,8 +101,8 @@ const ProjectLog = () => {
                     />
                     </div> 
                     <div className='child border-neutral-700 border-t p-4 flex justify-end items-center space-x-2'>
-                        <Button onClick={closeProjectLog}>Cancel</Button>
-                        <Button onClick={closeProjectLog}>Create Project</Button>
+                        <Button onClick={closeProjectLog} size="sm">Cancel</Button>
+                        <Button onClick={closeProjectLog} size="sm">Create Project</Button>
                     </div>
                 </div> 
                 
@@ -111,3 +113,6 @@ const ProjectLog = () => {
 };
 
 export default ProjectLog;
+
+
+
