@@ -1,15 +1,17 @@
-
+import { getToken } from "next-auth/jwt";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-export function middleware(request: NextRequest) {
-  const token = request.cookies.get("next-auth.session-token")?.value 
-             || request.cookies.get("__Secure-next-auth.session-token")?.value;
+export async function middleware(request: NextRequest) {
+  const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
+
+  console.log("Middleware reached.");
 
   if (!token) {
     return NextResponse.json(
-      { message: "Unauthorized. Session not found!"},
-      { status: 401}
+      { message: "Unauthorized. Session not found!" },
+      { status: 401 },
+
     );
   }
 
@@ -17,5 +19,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/api/:path*"], // This will match all API routes
+  matcher: ["/api/:path*"],
 };

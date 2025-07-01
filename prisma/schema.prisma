@@ -34,35 +34,35 @@ model User {
 }
 
 enum ProjectStatus {
-  BACKLOG
-  PLANNED
-  IN_PROGRESS
-  COMPLETED
-  CANCELLED
+  backlog
+  planned
+  in_progress
+  completed
+  cancelled
 }
 
 enum ProjectPriority {
-  NO_PRIORITY
-  URGENT
-  HIGH
-  MEDIUM
-  LOW
+  no_priority
+  urgent
+  high
+  medium
+  low
 }
 
 enum IssueStatus {
-  TODO
-  BACKLOG
-  IN_PROGRESS
-  IN_REVIEW
-  DONE
-  CANCELED
-  DUPLICATE
+  todo
+  backlog
+  in_progress
+  in_review
+  done
+  cancelled
+  duplicate
 }
 
 enum IssueLabel {
-  BUG
-  FEATURE
-  IMPROVEMENT
+  bug
+  feature
+  improvement
 }
 
 enum IssueRole {
@@ -79,8 +79,8 @@ model Project {
   description        String 
   createrId          String
   creater            User    @relation(fields: [createrId], references: [id]) 
-  status             ProjectStatus @default(PLANNED)
-  projectPriority    ProjectPriority @default(NO_PRIORITY)
+  status             ProjectStatus @default(planned)
+  projectPriority    ProjectPriority @default(no_priority)
   projectMemberships ProjectMembership[]
   issues              Issue[]
   createdDate        DateTime    @default(now())
@@ -109,8 +109,8 @@ model Issue {
   createrId              String
   creater                User @relation(fields: [createrId], references: [id])
   issueMembership        IssueMembership[]
-  label                  IssueLabel @default(FEATURE)
-  status                 IssueStatus @default(TODO)
+  label                  IssueLabel @default(feature)
+  status                 IssueStatus @default(todo)
   projectId              String
   project                Project @relation(fields: [projectId], references: [id])
 

@@ -1,15 +1,15 @@
 
 import { getServerSession } from "next-auth";
 import {prisma} from "@/lib/prisma"
+import * as z from "zod/v4";
 
 
 // Get all projects
-export default async function GET(){
+export  async function GET(){
 
 
     try{
         const projects = await prisma.project.findMany();
-        
         return Response.json(projects);
 
     }
@@ -29,9 +29,6 @@ export default async function GET(){
         )
     }
 
-    
-
-   
 
     
 }
@@ -42,28 +39,38 @@ export async function POST(request: Request){
 
     const session = await getServerSession();
 
-    if(!session){
+    console.log("Session",session);
+    
 
-        return new Response(
-            JSON.stringify({
-                message: "Unauthorized access"
-            }),
-            {
-                status:401
-            }
-        )
-    }
-
+    const projectBodyScheme = z.object({
+        name: z.string(),
+        description: z.string(),
+        shortSummary: z.string(),
+        startDate: z.date(),
+        targetDate: z.date(),
+        status: z.enum(["backlog","planned","in_progress","completed","cancelled"]).optional(),
+        priority: z.enum(["no_priority","urgent","hight","medium","low"]).optional()
+    })
     
     try{
 
+        const body = await request.json()
+        console.log(body);
 
+        const isSchemaValid = projectBodyScheme.safeParse(body);
+        
 
-        const {name, description} : {name: string, description: string} = await request.json()
+        if(!isSchemaValid.success){
+            
+            return new Response( JSON.stringify({
+                error: "Validation Error",
+                message: "Invalid Schmea. Make sure you've sent the correct data."
+            }));
+        }
 
         const createrId = await prisma.user.findUnique({
             where: {
-                email: String(session.user?.email)
+                email: String(session?.user?.email)
             }
         });
 
@@ -71,8 +78,10 @@ export async function POST(request: Request){
 
         const newProject = await prisma.project.create({
             data: {
-                name: name,
-                description: description,
+                name: body.name,
+                description: body.description,
+                shortSummary: body.shortSummary,
+
                 createrId: String(createrId),
                 projectMemberships:{
                     create:[
@@ -91,11 +100,14 @@ export async function POST(request: Request){
         
     }catch(e){
 
+        console.log(e);
+
         return new Response(
                             JSON.stringify({
                                     error: "Something went wrong.Check the error messages.",
                                     message: String(e)})
         )
+
     }
 
 

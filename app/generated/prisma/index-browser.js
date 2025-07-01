@@ -133,6 +133,7 @@ exports.Prisma.UserScalarFieldEnum = {
 exports.Prisma.ProjectScalarFieldEnum = {
   id: 'id',
   name: 'name',
+  shortSummary: 'shortSummary',
   description: 'description',
   createrId: 'createrId',
   status: 'status',
@@ -232,6 +233,7 @@ exports.Prisma.UserOrderByRelevanceFieldEnum = {
 exports.Prisma.ProjectOrderByRelevanceFieldEnum = {
   id: 'id',
   name: 'name',
+  shortSummary: 'shortSummary',
   description: 'description',
   createrId: 'createrId'
 };
@@ -288,35 +290,35 @@ exports.Prisma.AuthenticatorOrderByRelevanceFieldEnum = {
   transports: 'transports'
 };
 exports.ProjectStatus = exports.$Enums.ProjectStatus = {
-  BACKLOG: 'BACKLOG',
-  PLANNED: 'PLANNED',
-  IN_PROGRESS: 'IN_PROGRESS',
-  COMPLETED: 'COMPLETED',
-  CANCELLED: 'CANCELLED'
+  backlog: 'backlog',
+  planned: 'planned',
+  in_progress: 'in_progress',
+  completed: 'completed',
+  cancelled: 'cancelled'
 };
 
 exports.ProjectPriority = exports.$Enums.ProjectPriority = {
-  NO_PRIORITY: 'NO_PRIORITY',
-  URGENT: 'URGENT',
-  HIGH: 'HIGH',
-  MEDIUM: 'MEDIUM',
-  LOW: 'LOW'
+  no_priority: 'no_priority',
+  urgent: 'urgent',
+  high: 'high',
+  medium: 'medium',
+  low: 'low'
 };
 
 exports.IssueLabel = exports.$Enums.IssueLabel = {
-  BUG: 'BUG',
-  FEATURE: 'FEATURE',
-  IMPROVEMENT: 'IMPROVEMENT'
+  bug: 'bug',
+  feature: 'feature',
+  improvement: 'improvement'
 };
 
 exports.IssueStatus = exports.$Enums.IssueStatus = {
-  TODO: 'TODO',
-  BACKLOG: 'BACKLOG',
-  IN_PROGRESS: 'IN_PROGRESS',
-  IN_REVIEW: 'IN_REVIEW',
-  DONE: 'DONE',
-  CANCELED: 'CANCELED',
-  DUPLICATE: 'DUPLICATE'
+  todo: 'todo',
+  backlog: 'backlog',
+  in_progress: 'in_progress',
+  in_review: 'in_review',
+  done: 'done',
+  cancelled: 'cancelled',
+  duplicate: 'duplicate'
 };
 
 exports.Prisma.ModelName = {

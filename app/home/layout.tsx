@@ -6,6 +6,10 @@ import { ProjectLogContextProvider } from "../context/ProjectLogContext";
 import { NewIssueContextProvider } from "../context/NewIssueContext"
 import IssueLog from "../components/IssueLog";
 import ProjectLog from "../components/ProjectLog";
+import { DeleteDialogContextProvider } from "../context/DialogContext";
+import Dialog from "../components/Dialog";
+import {Toaster} from "sonner";
+import { SidebarProvider } from "../context/SidebarContext";
 
 
 
@@ -21,8 +25,12 @@ export default function RootLayout({
 }>) {
 
   
+
+  
   return (
           <div>
+            <SidebarProvider>
+            <DeleteDialogContextProvider>
             <NewIssueContextProvider>
               <ProjectLogContextProvider>
                   <Sidebar/>
@@ -30,9 +38,13 @@ export default function RootLayout({
                       {children}
                       <IssueLog/>
                       <ProjectLog/>
+                      <Dialog/>
+                      <Toaster position="bottom-right" theme="dark"/>
                     </div> 
               </ProjectLogContextProvider>
             </NewIssueContextProvider>
+            </DeleteDialogContextProvider>
+            </SidebarProvider>
           </div>
   );
 }

@@ -64,44 +64,44 @@ export type Authenticator = $Result.DefaultSelection<Prisma.$AuthenticatorPayloa
  */
 export namespace $Enums {
   export const ProjectStatus: {
-  BACKLOG: 'BACKLOG',
-  PLANNED: 'PLANNED',
-  IN_PROGRESS: 'IN_PROGRESS',
-  COMPLETED: 'COMPLETED',
-  CANCELLED: 'CANCELLED'
+  backlog: 'backlog',
+  planned: 'planned',
+  in_progress: 'in_progress',
+  completed: 'completed',
+  cancelled: 'cancelled'
 };
 
 export type ProjectStatus = (typeof ProjectStatus)[keyof typeof ProjectStatus]
 
 
 export const ProjectPriority: {
-  NO_PRIORITY: 'NO_PRIORITY',
-  URGENT: 'URGENT',
-  HIGH: 'HIGH',
-  MEDIUM: 'MEDIUM',
-  LOW: 'LOW'
+  no_priority: 'no_priority',
+  urgent: 'urgent',
+  high: 'high',
+  medium: 'medium',
+  low: 'low'
 };
 
 export type ProjectPriority = (typeof ProjectPriority)[keyof typeof ProjectPriority]
 
 
 export const IssueStatus: {
-  TODO: 'TODO',
-  BACKLOG: 'BACKLOG',
-  IN_PROGRESS: 'IN_PROGRESS',
-  IN_REVIEW: 'IN_REVIEW',
-  DONE: 'DONE',
-  CANCELED: 'CANCELED',
-  DUPLICATE: 'DUPLICATE'
+  todo: 'todo',
+  backlog: 'backlog',
+  in_progress: 'in_progress',
+  in_review: 'in_review',
+  done: 'done',
+  cancelled: 'cancelled',
+  duplicate: 'duplicate'
 };
 
 export type IssueStatus = (typeof IssueStatus)[keyof typeof IssueStatus]
 
 
 export const IssueLabel: {
-  BUG: 'BUG',
-  FEATURE: 'FEATURE',
-  IMPROVEMENT: 'IMPROVEMENT'
+  bug: 'bug',
+  feature: 'feature',
+  improvement: 'improvement'
 };
 
 export type IssueLabel = (typeof IssueLabel)[keyof typeof IssueLabel]
@@ -3108,6 +3108,7 @@ export namespace Prisma {
   export type ProjectMinAggregateOutputType = {
     id: string | null
     name: string | null
+    shortSummary: string | null
     description: string | null
     createrId: string | null
     status: $Enums.ProjectStatus | null
@@ -3122,6 +3123,7 @@ export namespace Prisma {
   export type ProjectMaxAggregateOutputType = {
     id: string | null
     name: string | null
+    shortSummary: string | null
     description: string | null
     createrId: string | null
     status: $Enums.ProjectStatus | null
@@ -3136,6 +3138,7 @@ export namespace Prisma {
   export type ProjectCountAggregateOutputType = {
     id: number
     name: number
+    shortSummary: number
     description: number
     createrId: number
     status: number
@@ -3152,6 +3155,7 @@ export namespace Prisma {
   export type ProjectMinAggregateInputType = {
     id?: true
     name?: true
+    shortSummary?: true
     description?: true
     createrId?: true
     status?: true
@@ -3166,6 +3170,7 @@ export namespace Prisma {
   export type ProjectMaxAggregateInputType = {
     id?: true
     name?: true
+    shortSummary?: true
     description?: true
     createrId?: true
     status?: true
@@ -3180,6 +3185,7 @@ export namespace Prisma {
   export type ProjectCountAggregateInputType = {
     id?: true
     name?: true
+    shortSummary?: true
     description?: true
     createrId?: true
     status?: true
@@ -3267,6 +3273,7 @@ export namespace Prisma {
   export type ProjectGroupByOutputType = {
     id: string
     name: string
+    shortSummary: string
     description: string
     createrId: string
     status: $Enums.ProjectStatus
@@ -3298,6 +3305,7 @@ export namespace Prisma {
   export type ProjectSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
+    shortSummary?: boolean
     description?: boolean
     createrId?: boolean
     status?: boolean
@@ -3316,6 +3324,7 @@ export namespace Prisma {
   export type ProjectSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
+    shortSummary?: boolean
     description?: boolean
     createrId?: boolean
     status?: boolean
@@ -3331,6 +3340,7 @@ export namespace Prisma {
   export type ProjectSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
+    shortSummary?: boolean
     description?: boolean
     createrId?: boolean
     status?: boolean
@@ -3346,6 +3356,7 @@ export namespace Prisma {
   export type ProjectSelectScalar = {
     id?: boolean
     name?: boolean
+    shortSummary?: boolean
     description?: boolean
     createrId?: boolean
     status?: boolean
@@ -3357,7 +3368,7 @@ export namespace Prisma {
     targetDate?: boolean
   }
 
-  export type ProjectOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "createrId" | "status" | "projectPriority" | "createdDate" | "updatedAt" | "startDate" | "completedDate" | "targetDate", ExtArgs["result"]["project"]>
+  export type ProjectOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "shortSummary" | "description" | "createrId" | "status" | "projectPriority" | "createdDate" | "updatedAt" | "startDate" | "completedDate" | "targetDate", ExtArgs["result"]["project"]>
   export type ProjectInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     creater?: boolean | UserDefaultArgs<ExtArgs>
     projectMemberships?: boolean | Project$projectMembershipsArgs<ExtArgs>
@@ -3381,6 +3392,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       name: string
+      shortSummary: string
       description: string
       createrId: string
       status: $Enums.ProjectStatus
@@ -3818,6 +3830,7 @@ export namespace Prisma {
   interface ProjectFieldRefs {
     readonly id: FieldRef<"Project", 'String'>
     readonly name: FieldRef<"Project", 'String'>
+    readonly shortSummary: FieldRef<"Project", 'String'>
     readonly description: FieldRef<"Project", 'String'>
     readonly createrId: FieldRef<"Project", 'String'>
     readonly status: FieldRef<"Project", 'ProjectStatus'>
@@ -11875,6 +11888,7 @@ export namespace Prisma {
   export const ProjectScalarFieldEnum: {
     id: 'id',
     name: 'name',
+    shortSummary: 'shortSummary',
     description: 'description',
     createrId: 'createrId',
     status: 'status',
@@ -12010,6 +12024,7 @@ export namespace Prisma {
   export const ProjectOrderByRelevanceFieldEnum: {
     id: 'id',
     name: 'name',
+    shortSummary: 'shortSummary',
     description: 'description',
     createrId: 'createrId'
   };
@@ -12307,6 +12322,7 @@ export namespace Prisma {
     NOT?: ProjectWhereInput | ProjectWhereInput[]
     id?: StringFilter<"Project"> | string
     name?: StringFilter<"Project"> | string
+    shortSummary?: StringFilter<"Project"> | string
     description?: StringFilter<"Project"> | string
     createrId?: StringFilter<"Project"> | string
     status?: EnumProjectStatusFilter<"Project"> | $Enums.ProjectStatus
@@ -12324,6 +12340,7 @@ export namespace Prisma {
   export type ProjectOrderByWithRelationInput = {
     id?: SortOrder
     name?: SortOrder
+    shortSummary?: SortOrder
     description?: SortOrder
     createrId?: SortOrder
     status?: SortOrder
@@ -12345,6 +12362,7 @@ export namespace Prisma {
     OR?: ProjectWhereInput[]
     NOT?: ProjectWhereInput | ProjectWhereInput[]
     name?: StringFilter<"Project"> | string
+    shortSummary?: StringFilter<"Project"> | string
     description?: StringFilter<"Project"> | string
     createrId?: StringFilter<"Project"> | string
     status?: EnumProjectStatusFilter<"Project"> | $Enums.ProjectStatus
@@ -12362,6 +12380,7 @@ export namespace Prisma {
   export type ProjectOrderByWithAggregationInput = {
     id?: SortOrder
     name?: SortOrder
+    shortSummary?: SortOrder
     description?: SortOrder
     createrId?: SortOrder
     status?: SortOrder
@@ -12382,6 +12401,7 @@ export namespace Prisma {
     NOT?: ProjectScalarWhereWithAggregatesInput | ProjectScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Project"> | string
     name?: StringWithAggregatesFilter<"Project"> | string
+    shortSummary?: StringWithAggregatesFilter<"Project"> | string
     description?: StringWithAggregatesFilter<"Project"> | string
     createrId?: StringWithAggregatesFilter<"Project"> | string
     status?: EnumProjectStatusWithAggregatesFilter<"Project"> | $Enums.ProjectStatus
@@ -12939,6 +12959,7 @@ export namespace Prisma {
   export type ProjectCreateInput = {
     id?: string
     name: string
+    shortSummary: string
     description: string
     status?: $Enums.ProjectStatus
     projectPriority?: $Enums.ProjectPriority
@@ -12955,6 +12976,7 @@ export namespace Prisma {
   export type ProjectUncheckedCreateInput = {
     id?: string
     name: string
+    shortSummary: string
     description: string
     createrId: string
     status?: $Enums.ProjectStatus
@@ -12971,6 +12993,7 @@ export namespace Prisma {
   export type ProjectUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    shortSummary?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     status?: EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
     projectPriority?: EnumProjectPriorityFieldUpdateOperationsInput | $Enums.ProjectPriority
@@ -12987,6 +13010,7 @@ export namespace Prisma {
   export type ProjectUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    shortSummary?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     createrId?: StringFieldUpdateOperationsInput | string
     status?: EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
@@ -13003,6 +13027,7 @@ export namespace Prisma {
   export type ProjectCreateManyInput = {
     id?: string
     name: string
+    shortSummary: string
     description: string
     createrId: string
     status?: $Enums.ProjectStatus
@@ -13017,6 +13042,7 @@ export namespace Prisma {
   export type ProjectUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    shortSummary?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     status?: EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
     projectPriority?: EnumProjectPriorityFieldUpdateOperationsInput | $Enums.ProjectPriority
@@ -13030,6 +13056,7 @@ export namespace Prisma {
   export type ProjectUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    shortSummary?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     createrId?: StringFieldUpdateOperationsInput | string
     status?: EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
@@ -13736,6 +13763,7 @@ export namespace Prisma {
   export type ProjectCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    shortSummary?: SortOrder
     description?: SortOrder
     createrId?: SortOrder
     status?: SortOrder
@@ -13750,6 +13778,7 @@ export namespace Prisma {
   export type ProjectMaxOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    shortSummary?: SortOrder
     description?: SortOrder
     createrId?: SortOrder
     status?: SortOrder
@@ -13764,6 +13793,7 @@ export namespace Prisma {
   export type ProjectMinOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    shortSummary?: SortOrder
     description?: SortOrder
     createrId?: SortOrder
     status?: SortOrder
@@ -15130,6 +15160,7 @@ export namespace Prisma {
   export type ProjectCreateWithoutCreaterInput = {
     id?: string
     name: string
+    shortSummary: string
     description: string
     status?: $Enums.ProjectStatus
     projectPriority?: $Enums.ProjectPriority
@@ -15145,6 +15176,7 @@ export namespace Prisma {
   export type ProjectUncheckedCreateWithoutCreaterInput = {
     id?: string
     name: string
+    shortSummary: string
     description: string
     status?: $Enums.ProjectStatus
     projectPriority?: $Enums.ProjectPriority
@@ -15351,6 +15383,7 @@ export namespace Prisma {
     NOT?: ProjectScalarWhereInput | ProjectScalarWhereInput[]
     id?: StringFilter<"Project"> | string
     name?: StringFilter<"Project"> | string
+    shortSummary?: StringFilter<"Project"> | string
     description?: StringFilter<"Project"> | string
     createrId?: StringFilter<"Project"> | string
     status?: EnumProjectStatusFilter<"Project"> | $Enums.ProjectStatus
@@ -15673,6 +15706,7 @@ export namespace Prisma {
   export type ProjectCreateWithoutProjectMembershipsInput = {
     id?: string
     name: string
+    shortSummary: string
     description: string
     status?: $Enums.ProjectStatus
     projectPriority?: $Enums.ProjectPriority
@@ -15688,6 +15722,7 @@ export namespace Prisma {
   export type ProjectUncheckedCreateWithoutProjectMembershipsInput = {
     id?: string
     name: string
+    shortSummary: string
     description: string
     createrId: string
     status?: $Enums.ProjectStatus
@@ -15762,6 +15797,7 @@ export namespace Prisma {
   export type ProjectUpdateWithoutProjectMembershipsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    shortSummary?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     status?: EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
     projectPriority?: EnumProjectPriorityFieldUpdateOperationsInput | $Enums.ProjectPriority
@@ -15777,6 +15813,7 @@ export namespace Prisma {
   export type ProjectUncheckedUpdateWithoutProjectMembershipsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    shortSummary?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     createrId?: StringFieldUpdateOperationsInput | string
     status?: EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
@@ -15849,6 +15886,7 @@ export namespace Prisma {
   export type ProjectCreateWithoutIssuesInput = {
     id?: string
     name: string
+    shortSummary: string
     description: string
     status?: $Enums.ProjectStatus
     projectPriority?: $Enums.ProjectPriority
@@ -15864,6 +15902,7 @@ export namespace Prisma {
   export type ProjectUncheckedCreateWithoutIssuesInput = {
     id?: string
     name: string
+    shortSummary: string
     description: string
     createrId: string
     status?: $Enums.ProjectStatus
@@ -15954,6 +15993,7 @@ export namespace Prisma {
   export type ProjectUpdateWithoutIssuesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    shortSummary?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     status?: EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
     projectPriority?: EnumProjectPriorityFieldUpdateOperationsInput | $Enums.ProjectPriority
@@ -15969,6 +16009,7 @@ export namespace Prisma {
   export type ProjectUncheckedUpdateWithoutIssuesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    shortSummary?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     createrId?: StringFieldUpdateOperationsInput | string
     status?: EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
@@ -16382,6 +16423,7 @@ export namespace Prisma {
   export type ProjectCreateManyCreaterInput = {
     id?: string
     name: string
+    shortSummary: string
     description: string
     status?: $Enums.ProjectStatus
     projectPriority?: $Enums.ProjectPriority
@@ -16490,6 +16532,7 @@ export namespace Prisma {
   export type ProjectUpdateWithoutCreaterInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    shortSummary?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     status?: EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
     projectPriority?: EnumProjectPriorityFieldUpdateOperationsInput | $Enums.ProjectPriority
@@ -16505,6 +16548,7 @@ export namespace Prisma {
   export type ProjectUncheckedUpdateWithoutCreaterInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    shortSummary?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     status?: EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
     projectPriority?: EnumProjectPriorityFieldUpdateOperationsInput | $Enums.ProjectPriority
@@ -16520,6 +16564,7 @@ export namespace Prisma {
   export type ProjectUncheckedUpdateManyWithoutCreaterInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    shortSummary?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     status?: EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
     projectPriority?: EnumProjectPriorityFieldUpdateOperationsInput | $Enums.ProjectPriority

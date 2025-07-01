@@ -4,7 +4,6 @@ import * as React from "react"
 import { format } from "date-fns"
 import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
-import { cn } from "@/lib/utils"
 import {
   Popover,
   PopoverContent,
@@ -15,16 +14,19 @@ import {
 
 interface DatePickerType {
     label: string
-    icon:  React.ReactNode
+    icon:  React.ReactNode,
+    setDate : React.Dispatch<React.SetStateAction<Date | null>>,
+    date : Date | null
 }
 
-export function DatePicker({label,icon}: DatePickerType) {
-  const [date, setDate] = React.useState<Date>()
+export function DatePicker({label,icon, date, setDate}: DatePickerType) {
+
+
   
   return (
     <div className="relative inline-block">
         <Popover>
-      <PopoverTrigger asChild>
+          <PopoverTrigger asChild>
         <Button
           variant="outline"
           data-empty={!date}
@@ -41,8 +43,8 @@ export function DatePicker({label,icon}: DatePickerType) {
       <PopoverContent className="absolute left-0 -translate-x-10 w-auto p-0 z-100">
           <Calendar
             mode="single"
-            selected={date}
-            onSelect={setDate}
+            selected={date ?? undefined}
+            onSelect={(selectedDate) => setDate(selectedDate ?? null)}
             className="bg-neutral-800"
             classNames={{
             root: "bg-neutral-800", 

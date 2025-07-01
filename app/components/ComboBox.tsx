@@ -30,13 +30,15 @@ interface OptionType {
 interface ComboBoxType {
   type: string
   options: OptionType[]
+  setValue: React.Dispatch<React.SetStateAction<string>>
+  value: string
 }
 
 
 
-export function Combobox({type,options}: ComboBoxType) {
+export function Combobox({type,options, setValue, value}: ComboBoxType) {
   const [open, setOpen] = React.useState(false)
-  const [value, setValue] = React.useState("")
+  
 
 
   const selectedOption : OptionType = options.find((option) => value === option.value) ?? options[0];
@@ -45,9 +47,7 @@ export function Combobox({type,options}: ComboBoxType) {
       <div className="relative inline-block">
       <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        
             <LinearButton option={selectedOption} />
-        
       </PopoverTrigger>
       <PopoverContent className="absolute left-1/2 -translate-x-10 w-[300px] z-100 bg-neutral-800 border-neutral-700 text-neutral-200 px-0 py-0 ">
         <Command>
@@ -72,7 +72,6 @@ export function Combobox({type,options}: ComboBoxType) {
                       "ml-auto",
                       value === option.value ? "opacity-100" : "opacity-0"
                     )}
-                  
                   />
                   {index+1}
                 </CommandItem>
