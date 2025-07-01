@@ -7,11 +7,31 @@ import * as z from "zod/v4";
 // Get all projects
 export  async function GET(){
 
+    const session = await getServerSession();
 
     try{
-        const projects = await prisma.project.findMany();
-        return Response.json(projects);
+        
+        const user = await prisma.user.findUnique({
+            where:{
+                email: String(session?.user?.email)
+            }
 
+        })
+
+        const userProjects = await prisma.projectMembership.findMany({
+            where: {
+                memberId: user?.id
+            },
+            include:{
+                project: true
+            }
+        })
+
+        return new Response(
+            JSON.stringify({
+                projects: userProjects
+            })
+        )
     }
     catch(e){
 
@@ -39,15 +59,14 @@ export async function POST(request: Request){
 
     const session = await getServerSession();
 
-    console.log("Session",session);
     
 
-    const projectBodyScheme = z.object({
+    const projectBodySchema = z.object({
         name: z.string(),
         description: z.string(),
         shortSummary: z.string(),
-        startDate: z.date(),
-        targetDate: z.date(),
+        startDate: z.string(),
+        targetDate: z.string(),
         status: z.enum(["backlog","planned","in_progress","completed","cancelled"]).optional(),
         priority: z.enum(["no_priority","urgent","hight","medium","low"]).optional()
     })
@@ -55,20 +74,26 @@ export async function POST(request: Request){
     try{
 
         const body = await request.json()
-        console.log(body);
+        // console.log("requestBody:",typeof body.startDate);
 
-        const isSchemaValid = projectBodyScheme.safeParse(body);
+        const isSchemaValid = projectBodySchema.safeParse(body);
         
-
         if(!isSchemaValid.success){
+
+            console.log(isSchemaValid)
             
             return new Response( JSON.stringify({
-                error: "Validation Error",
-                message: "Invalid Schmea. Make sure you've sent the correct data."
-            }));
+                error: isSchemaValid,
+                message: "Invalid Schema. Make sure you've sent the correct data.",
+                
+              
+            }),{
+                status: 400,
+                headers: { "Content-Type": "application/json"}
+            });
         }
 
-        const createrId = await prisma.user.findUnique({
+        const user = await prisma.user.findUnique({
             where: {
                 email: String(session?.user?.email)
             }
@@ -81,21 +106,25 @@ export async function POST(request: Request){
                 name: body.name,
                 description: body.description,
                 shortSummary: body.shortSummary,
-
-                createrId: String(createrId),
+                createrId: String(user?.id),
                 projectMemberships:{
                     create:[
-                        {memberId: String(createrId), role: "OWNER"}
+                        {memberId: String(user?.id), role: "OWNER"}
                     ]
                 }
                 
             }
         })
 
-
+  
         
-
-        return  Response.json(newProject);
+        return new Response(JSON.stringify({
+            project: newProject,
+            message: "Project successfully created!",
+        }),{
+            status: 200,
+            headers: {"Content-Type": "application/json"}
+        });
 
         
     }catch(e){

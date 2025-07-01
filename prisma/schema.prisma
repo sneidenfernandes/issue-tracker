@@ -72,6 +72,13 @@ enum IssueRole {
   APPROVER
 }
 
+enum ProjectRole {
+  OWNER
+  ADMIN
+  MAINTAINER
+  CONTRIBUTER
+}
+
 model Project {
   id                 String @id @default(cuid())
   name               String
@@ -91,12 +98,13 @@ model Project {
 }
 
 
+
 model ProjectMembership {
   memberId         String
   member           User   @relation(fields: [memberId], references: [id])
   projectId        String
   project          Project @relation(fields:[projectId], references: [id])
-  role             String
+  role             ProjectRole @default(OWNER)
 
   @@id([memberId,projectId]) 
 }

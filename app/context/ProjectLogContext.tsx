@@ -126,28 +126,31 @@ export function ProjectLogContextProvider({children}:{children: React.ReactNode}
 
 
 
-        const input = {
+        const body = {
             name: projectName,
             description: description,
             shortSummary: shortSummary,
-            startDate: startDate ?? new Date,
-            targetDate: targetDate ?? new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+            startDate: startDate as Date ?? new Date(),
+            targetDate: targetDate as Date ?? new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
             status: status,
-            priority: priority
+            priority: String(priority)
         }
+         setLoading(true);
+
         try {
-            setLoading(true);
-            const newProject = await axios.post(`/api/projects`, input);
-            if(newProject.status === 200){
+           
+            const response = await axios.post(`/api/projects`, body);
+         
+            if(response.status === 200){
                 toast.success("Project created successfully!")
             }
-
+           
 
         } catch(e){
             console.error("Failed to create project:",e);
             toast.error("Failed to create project!")
         }finally{
-            closeProjectLog();
+             closeProjectLog();
             setLoading(false);
         }
     }
