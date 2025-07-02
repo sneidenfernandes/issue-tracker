@@ -5,9 +5,9 @@ import { LinearButton } from "@/app/components/LinearButton";
 // import ProjectItem from "@/app/components/ProjectItem";
 import useProjectLogContext from "@/app/context/ProjectLogContext"
 import { useSidebar } from "@/app/context/SidebarContext";
-import { useEffect, useState } from "react";
-import axios from "axios";
+import {useQuery} from "@tanstack/react-query"
 import ProjectItem from "@/app/components/ProjectItem";
+
 
 interface Project {
     id: string
@@ -21,8 +21,23 @@ interface Project {
 export default function Projects(){
     const {openProjectLog} = useProjectLogContext();
     const { openSideBar, openSidebarRef} = useSidebar();
+   
 
-    const [projectList, setProjectList] = useState<Array<Project>>([]);
+    const fetchProjects = async () => {
+        const response = await fetch("/api/projects");
+        if(!response.ok) throw new Error("Failed to fetch projects!")
+        const data = await response.json();
+        console.log(data);
+        return data.projects;
+    }
+
+
+    const {data, isLoading, error} = useQuery({
+        queryKey: ["projects"],
+        queryFn:   fetchProjects
+    })
+
+
 
     const allProjects = {
         label: "All projects", 
@@ -30,18 +45,21 @@ export default function Projects(){
         value: "all projects"
     }
 
-    useEffect(()=>{
-        axios.get("/api/projects")
-        .then(response => {
-            console.log(response.data)
-            setProjectList(response.data.projects)})
-        .catch(error => console.error("Error fetching items:", error))
-    },[]);
+    // useEffect(()=>{
+    //     axios.get("/api/projects")
+    //     .then(response => {
+    //         console.log(response.data)
+    //         setProjectList(response.data.projects)})
+    //     .catch(error => console.error("Error fetching items:", error))
+    // },[]);
+
+    if(isLoading) return <p>Loading bitches</p>
+
+    if(error) return <p>Error bitches</p>   
 
     
 
-    return <div>
-                    
+    return <div>     
                    <div className="h-10 border-b-[1px] border-neutral-800 px-4  md:px-8 flex justify-between items-center">
                         <div className="grid grid-cols-2 gap-x-px items-center">
                             <button onClick={()=> openSideBar()} className="block  md:hidden text-white " ref={openSidebarRef}>
@@ -94,9 +112,9 @@ export default function Projects(){
                             
                     </div>  
                     <ul className="grid grid-cols-1 w-full">
-                        {projectList.map( project => {
+                        {data?.map( (project: Project)  => {
                             return <li key={project.id}>
-                                        <ProjectItem key={project.id} name={project.project.name} role={project.role}/>
+                                        <ProjectItem name={project.project.name} role={project.role}/>
                                   </li>
                         })}
                     </ul>

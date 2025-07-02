@@ -29,9 +29,9 @@ const ProjectLog = () => {
          setStartDate,
          status,
          priority,
-         cancelProject,
-         createProject,
-         loading
+         addProjectTrigger,
+         cancelProject
+    
         } = useProjectLogContext();
 
 
@@ -43,14 +43,14 @@ const ProjectLog = () => {
   return (
         <AnimatePresence>
         <motion.div 
-            className={`${loading && `opacity-30`} fixed left-[5vw] md:left-[280px]  md:w-[calc(100vw-280px)] h-screen pointer-events-none z-100 bg-opacity-20 boreder-neutral-400`}
+            className={`${`opacity-30`} fixed md:left-[280px]  md:w-[calc(100vw-280px)] h-screen pointer-events-none z-100 bg-opacity-20 boreder-neutral-400`}
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.1, ease: 'easeOut' }}
             ref={projectLogRef}
             >
-            <div className="absolute bottom-[200px] md:top-2/5 md:left-2/5 w-[90vw] md:w-[65vw] lg:w-[50vw] parent h-[85vh] md:-translate-x-1/2 md:-translate-y-4/7 border-neutral-700 border-[1px] bg-black rounded-xl  flex flex-col justify-between items-center pointer-events-auto">
+            <div className="absolute left-3 -translate-y-1/4 md:left-5 lg:left-20 w-[90vw] md:w-[65vw] lg:w-[50vw] parent h-[85vh] border-neutral-700 border-[1px] bg-black rounded-xl  items-center pointer-events-auto">
                 <div className='w-full h-full bg-neutral-800/80 rounded-xl flex flex-col'>
 
                     {/* top */}
@@ -105,7 +105,7 @@ const ProjectLog = () => {
                     </div> 
                     <div className='child border-neutral-700 border-t p-4 flex justify-end items-center space-x-2'>
                         <Button onClick={cancelProject} size="sm" variant={"black"}>Cancel</Button>
-                        <Button onClick={createProject} size="sm" variant={"indigo"}>Create Project</Button>
+                        <Button onClick={addProjectTrigger} size="sm" variant={"indigo"}>Create Project</Button>
                     </div>
                 </div> 
                 

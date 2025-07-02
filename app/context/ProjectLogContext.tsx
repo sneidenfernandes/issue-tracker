@@ -3,6 +3,8 @@ import { createContext, useContext, useState, useEffect, useRef, RefObject, Disp
 import axios from "axios";
 import { useDialogContext } from "./DialogContext";
 import { toast } from "sonner";
+import { QueryClient, useMutation } from "@tanstack/react-query";
+
 
 interface ProjectLogType {
     // modal
@@ -22,6 +24,7 @@ interface ProjectLogType {
 
     // Project server actions
     createProject: () => Promise<void>,
+    cancelProject: () => void,
 
     // Project Properties 
     startDate: Date | null,
@@ -30,8 +33,8 @@ interface ProjectLogType {
     shortSummary: string, 
     status: string,
     priority: string,
-    cancelProject: () => void,
-    loading: boolean
+    addProjectTrigger: () => void,
+ 
 }
 
 const ProjectLogContext = createContext<ProjectLogType | undefined>(undefined);
@@ -41,13 +44,8 @@ export function ProjectLogContextProvider({children}:{children: React.ReactNode}
 
 
     const {openDialog, cancelDialog} = useDialogContext();    
-
-
     const projectLogRef = useRef<HTMLDivElement | null>(null);
     const [showProjectLog, setShowProjectLog] = useState<boolean>(false);
-    
-
-
     // Project details
     const [description, setDescription] = useState<string>("");
     const [projectName, setProjectName] = useState<string>("");
@@ -56,7 +54,7 @@ export function ProjectLogContextProvider({children}:{children: React.ReactNode}
     const [startDate, setStartDate] = useState<Date | null>(null);
     const [status, setStatus] = useState<string>("backlog");
     const [priority, setPriority] = useState<string>("no_priority");
-    const [loading, setLoading] = useState<boolean>(false);
+
 
 
     const initialState = {
@@ -108,6 +106,8 @@ export function ProjectLogContextProvider({children}:{children: React.ReactNode}
   }, [showProjectLog]);
 
 
+
+
   const resetProjectDetails = () => {
             setDescription("");
             setProjectName("");
@@ -118,13 +118,15 @@ export function ProjectLogContextProvider({children}:{children: React.ReactNode}
             setPriority("no_priority");
   }
 
+   /// Tanstack query
 
 
+   
+
+        
 
 
     const createProject = async () => {
-
-
 
         const body = {
             name: projectName,
@@ -135,25 +137,71 @@ export function ProjectLogContextProvider({children}:{children: React.ReactNode}
             status: status,
             priority: String(priority)
         }
-         setLoading(true);
+        
 
         try {
            
             const response = await axios.post(`/api/projects`, body);
-         
-            if(response.status === 200){
-                toast.success("Project created successfully!")
-            }
-           
 
-        } catch(e){
-            console.error("Failed to create project:",e);
-            toast.error("Failed to create project!")
-        }finally{
-             closeProjectLog();
-            setLoading(false);
-        }
+            if(!(response.status === 200)){
+                throw new Error("Failed to create project!")
+            }
+
+            return response.data;
+          
+    }catch(e){
+        console.log(e);
+        throw new Error("Failed to create project!");
     }
+
+
+    }
+
+    const queryClient = new QueryClient()
+
+
+    const {mutate} = useMutation({
+        mutationFn: createProject,
+        onSuccess:async () => {
+            await queryClient.invalidateQueries({ queryKey: ["projects"] });
+            toast.success("Project created Successfully!")
+        },
+        onMutate: async () => {
+            const body = {
+            name: projectName,
+            description: description,
+            shortSummary: shortSummary,
+            startDate: startDate as Date ?? new Date(),
+            targetDate: targetDate as Date ?? new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+            status: status,
+            priority: String(priority)
+        }
+            await queryClient.cancelQueries({ queryKey: ["projects"] });
+            const previousPosts = queryClient.getQueryData(["projects"]);
+
+            await queryClient.setQueryData(["projects"], (old: { id: string; body: typeof body }[] = []) => {
+        
+                return [...old, {id: String(Date.now()), body}]
+            });
+
+            return {previousPosts};
+        },
+        onError: async (err, context: { previousPosts: unknown } | undefined) => {
+            if (context && context.previousPosts) {
+                await queryClient.setQueryData(["projects"], context.previousPosts);
+            }
+            toast.error("Project creation failed!");
+        }
+
+
+    })
+
+
+    const addProjectTrigger = () => {
+        mutate(undefined);
+        closeProjectLog();
+    }
+       
 
 
 
@@ -203,7 +251,7 @@ export function ProjectLogContextProvider({children}:{children: React.ReactNode}
         priority,
         shortSummary,
         description,
-        loading
+        addProjectTrigger
 
         
     }
@@ -218,6 +266,5 @@ export default function useProjectLogContext(){
     if(context === undefined){
         throw Error("context is not defined");
     }
-
     return context;
 }

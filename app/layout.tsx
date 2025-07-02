@@ -7,10 +7,13 @@ import "./globals.css";
 
 
 
+
 export const metadata: Metadata = {
   title: "Issue Tracker",
   description: ": Build Together",
 };
+
+import QueryProviders from "@/lib/queryProvider";
 
 export default function RootLayout({
   children,
@@ -20,9 +23,8 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className="bg-neutral-950 z-1">
-     
+      <QueryProviders>
         <AuthProvider>
-     
           <main className={` ${styles.background}`}>
             <div className= "w-full">
               {children}
@@ -30,6 +32,7 @@ export default function RootLayout({
           </main>
         </AuthProvider>
         <Footer/>
+      </QueryProviders>
       </body>
     </html>
   );

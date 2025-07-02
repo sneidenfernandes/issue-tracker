@@ -34,13 +34,13 @@ export default function RootLayout({
             <NewIssueContextProvider>
               <ProjectLogContextProvider>
                   <Sidebar/>
-                    <div className={`bg-neutral-900/60 md:ml-63  rounded  h-[95vh] m-[1vh] border-neutral-800 border-[1px]`}>
+                    <div className={`bg-neutral-900/60 block md:ml-63  rounded  h-[95vh] m-[1vh] border-neutral-800 border-[1px]`}>
                       {children}
-                      <IssueLog/>
                       <ProjectLog/>
+                      <IssueLog/>
                       <Dialog/>
                       <Toaster position="bottom-right" theme="dark"/>
-                    </div> 
+                    </div>  
               </ProjectLogContextProvider>
             </NewIssueContextProvider>
             </DeleteDialogContextProvider>
