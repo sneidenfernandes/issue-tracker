@@ -38,19 +38,16 @@ const ProjectLog = () => {
 
   if(!showProjectLog) return;
 
-  
-
   return (
         <AnimatePresence>
-        <motion.div 
-            className={`${`opacity-30`} fixed md:left-[280px]  md:w-[calc(100vw-280px)] h-screen pointer-events-none z-100 bg-opacity-20 boreder-neutral-400`}
+            <motion.div 
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.1, ease: 'easeOut' }}
             ref={projectLogRef}
+            className="fixed h-[90%]  w-[90%] left-1/2 top-1/2 -translate-y-1/2 -translate-x-1/2 md:w-[50%] md:-translate-x-1/3 lg:-translate-x-1/2  border-neutral-700 border-[1px] bg-black z-100 rounded-xl"
             >
-            <div className="absolute left-3 -translate-y-1/4 md:left-5 lg:left-20 w-[90vw] md:w-[65vw] lg:w-[50vw] parent h-[85vh] border-neutral-700 border-[1px] bg-black rounded-xl  items-center pointer-events-auto">
                 <div className='w-full h-full bg-neutral-800/80 rounded-xl flex flex-col'>
 
                     {/* top */}
@@ -109,8 +106,8 @@ const ProjectLog = () => {
                     </div>
                 </div> 
                 
-            </div>
-        </motion.div>
+            </motion.div>
+     
         </AnimatePresence>
     
   );

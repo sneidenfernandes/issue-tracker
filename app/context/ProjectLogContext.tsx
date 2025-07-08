@@ -3,7 +3,9 @@ import { createContext, useContext, useState, useEffect, useRef, RefObject, Disp
 import axios from "axios";
 import { useDialogContext } from "./DialogContext";
 import { toast } from "sonner";
-import { QueryClient, useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Project, ProjectBody, projectBodySchema } from "../types/project";
+import { Status, Priority } from "../types/project";
 
 
 interface ProjectLogType {
@@ -19,11 +21,10 @@ interface ProjectLogType {
     setShortSummary: Dispatch<SetStateAction<string>>,
     setTargetDate: Dispatch<SetStateAction<Date | null>>,
     setStartDate: Dispatch<SetStateAction<Date | null>>,
-    setStatus: Dispatch<SetStateAction<string>>,
-    setPriority: Dispatch<SetStateAction<string>>,
+    setStatus: Dispatch<SetStateAction<Status>>,
+    setPriority: Dispatch<SetStateAction<Priority>>,
 
     // Project server actions
-    createProject: () => Promise<void>,
     cancelProject: () => void,
 
     // Project Properties 
@@ -31,8 +32,8 @@ interface ProjectLogType {
     targetDate: Date | null,
     description: string, 
     shortSummary: string, 
-    status: string,
-    priority: string,
+    status: Status,
+    priority: Priority,
     addProjectTrigger: () => void,
  
 }
@@ -52,9 +53,8 @@ export function ProjectLogContextProvider({children}:{children: React.ReactNode}
     const [shortSummary, setShortSummary] = useState<string>("");
     const [targetDate, setTargetDate] = useState<Date | null>(null);
     const [startDate, setStartDate] = useState<Date | null>(null);
-    const [status, setStatus] = useState<string>("backlog");
-    const [priority, setPriority] = useState<string>("no_priority");
-
+    const [status, setStatus] = useState<Status>(Status.BACKLOG);
+    const [priority, setPriority] = useState<Priority>(Priority.NO_PRIORITY);
 
 
     const initialState = {
@@ -114,22 +114,32 @@ export function ProjectLogContextProvider({children}:{children: React.ReactNode}
             setShortSummary("");
             setTargetDate(null);
             setStartDate(null);
-            setStatus("backlog");
-            setPriority("no_priority");
+            setStatus(Status.BACKLOG);
+            setPriority(Priority.NO_PRIORITY);
   }
 
-   /// Tanstack query
 
-
-   
 
         
 
 
-    const createProject = async () => {
+    const createProject = async ({
+        name,
+        description, 
+        shortSummary,
+        startDate,
+        targetDate,
+        status,
+        priority,
+    } : ProjectBody) => {
 
-        const body = {
-            name: projectName,
+        
+        
+
+        try {
+
+            const body = {
+            name: name,
             description: description,
             shortSummary: shortSummary,
             startDate: startDate as Date ?? new Date(),
@@ -137,16 +147,17 @@ export function ProjectLogContextProvider({children}:{children: React.ReactNode}
             status: status,
             priority: String(priority)
         }
-        
 
-        try {
+            const valid = projectBodySchema.safeParse(body);
+            console.log(valid.success);
            
-            const response = await axios.post(`/api/projects`, body);
+            const response = await axios.post(`/api/projects`, body, {timeout: 10000});
 
             if(!(response.status === 200)){
                 throw new Error("Failed to create project!")
             }
 
+            console.log(response);
             return response.data;
           
     }catch(e){
@@ -157,54 +168,67 @@ export function ProjectLogContextProvider({children}:{children: React.ReactNode}
 
     }
 
-    const queryClient = new QueryClient()
+    const queryClient = useQueryClient();
 
 
-    const {mutate} = useMutation({
+    const projectMutation = useMutation({
         mutationFn: createProject,
-        onSuccess:async () => {
-            await queryClient.invalidateQueries({ queryKey: ["projects"] });
-            toast.success("Project created Successfully!")
+
+        onMutate: async (newProject) => {
+            
+            await queryClient.cancelQueries({queryKey:["projects"]})
+
+            const previousProjects =  queryClient.getQueryData<Project[]>(["projects"]);
+
+           const optimisticProject = {
+    projectId: Date.now().toString(),        // temp id
+    memberId: 'temp-member',                 // temp
+    role: 'OWNER',                           // or whatever default
+    project: {
+      id: Date.now().toString(),             // temp id
+      name: newProject.name,
+      shortSummary: newProject.shortSummary,
+      description: newProject.description,
+      startDate: newProject.startDate,
+      targetDate: newProject.targetDate,
+      status: newProject.status,
+      priority: newProject.priority,
+    }
+  };
+
+            queryClient.setQueryData(['projects'], (old : Project[] = []) => [...old, optimisticProject]);
+            return {previousProjects}
+
         },
-        onMutate: async () => {
-            const body = {
+        onSuccess: async () => {
+            toast.success("Project created sucessfully.");
+        },
+        onError: (err, _variables, context) => {
+            if (context?.previousProjects) {
+                queryClient.setQueryData(['projects'], context.previousProjects);
+            }
+            toast.error("Failed to create project!");
+        }
+
+    })
+
+
+    const addProjectTrigger = () => {
+
+
+        projectMutation.mutate({
             name: projectName,
             description: description,
             shortSummary: shortSummary,
             startDate: startDate as Date ?? new Date(),
             targetDate: targetDate as Date ?? new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
             status: status,
-            priority: String(priority)
-        }
-            await queryClient.cancelQueries({ queryKey: ["projects"] });
-            const previousPosts = queryClient.getQueryData(["projects"]);
+            priority: priority,
+        })
 
-            await queryClient.setQueryData(["projects"], (old: { id: string; body: typeof body }[] = []) => {
-        
-                return [...old, {id: String(Date.now()), body}]
-            });
-
-            return {previousPosts};
-        },
-        onError: async (err, context: { previousPosts: unknown } | undefined) => {
-            if (context && context.previousPosts) {
-                await queryClient.setQueryData(["projects"], context.previousPosts);
-            }
-            toast.error("Project creation failed!");
-        }
-
-
-    })
-
-
-    const addProjectTrigger = () => {
-        mutate(undefined);
         closeProjectLog();
+        resetProjectDetails();
     }
-       
-
-
-
     
 
     const openProjectLog = () => {
@@ -228,6 +252,7 @@ export function ProjectLogContextProvider({children}:{children: React.ReactNode}
         }
 
         setShowProjectLog(false);
+
     }
 
 
@@ -243,7 +268,6 @@ export function ProjectLogContextProvider({children}:{children: React.ReactNode}
         setStartDate,
         setStatus,
         setPriority,
-        createProject,
         startDate,
         targetDate,
         cancelProject,

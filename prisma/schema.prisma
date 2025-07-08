@@ -130,7 +130,6 @@ model IssueMembership {
   issueId             String
   issue               Issue   @relation(fields: [issueId], references: [id])
   role                String
-
   @@id([memberId, issueId])
 }
 

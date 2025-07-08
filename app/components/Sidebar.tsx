@@ -31,8 +31,7 @@ const Sidebar = () => {
             animate={{ x: 0 }}       // slides in to position
             exit={{ x: -250 }}       // slides out to the left
             transition={{ type: "tween", duration: 0.1 }} // smooth transition
-            ref={sidebarRef}
-          
+            ref={sidebarRef} 
           >
             {<SidebarContent/>}
             </motion.div>

@@ -1,13 +1,27 @@
-
 import { getServerSession } from "next-auth";
 import {prisma} from "@/lib/prisma"
-import * as z from "zod/v4";
+import { projectBodySchema } from "@/app/types/project";
+
 
 
 // Get all projects
 export  async function GET(){
 
     const session = await getServerSession();
+
+    if(!session){
+ 
+        return new Response(
+            JSON.stringify({
+                error: "Unauthorized",
+                message: "You must be logged in."
+            }),
+            {
+                status: 401,
+                headers: {"Content-Type": "application/json"}
+            }
+        )
+    }
 
     try{
         
@@ -17,6 +31,18 @@ export  async function GET(){
             }
 
         })
+
+        if(!user){
+            return new Response(JSON.stringify({
+                error: "User not found.",
+                message: "The user corresponding to this session is not found"
+            }),
+            {
+                status:401,
+                headers: {"Content-Type": "application/json"}
+            }
+        )
+        }
 
         const userProjects = await prisma.projectMembership.findMany({
             where: {
@@ -59,29 +85,32 @@ export async function POST(request: Request){
 
     const session = await getServerSession();
 
+    if(!session){
+
+        return new Response(JSON.stringify({
+            error: "Unauthorized",
+            message: "The user corresponding to this session is not found."
+        }),
+    {
+        status: 401,
+        headers: {"Content-Type": "application/json"}
+    })
+    }
+
     
 
-    const projectBodySchema = z.object({
-        name: z.string(),
-        description: z.string(),
-        shortSummary: z.string(),
-        startDate: z.string(),
-        targetDate: z.string(),
-        status: z.enum(["backlog","planned","in_progress","completed","cancelled"]).optional(),
-        priority: z.enum(["no_priority","urgent","hight","medium","low"]).optional()
-    })
+   
     
     try{
 
         const body = await request.json()
-        // console.log("requestBody:",typeof body.startDate);
+
+    
 
         const isSchemaValid = projectBodySchema.safeParse(body);
         
         if(!isSchemaValid.success){
 
-            console.log(isSchemaValid)
-            
             return new Response( JSON.stringify({
                 error: isSchemaValid,
                 message: "Invalid Schema. Make sure you've sent the correct data.",

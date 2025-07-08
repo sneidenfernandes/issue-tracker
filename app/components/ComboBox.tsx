@@ -2,7 +2,6 @@
 
 import * as React from "react"
 import { Check } from "lucide-react"
-
 import { cn } from "@/lib/utils"
 import {
   Command,
@@ -27,17 +26,18 @@ interface OptionType {
 }
 
 
-interface ComboBoxType {
+interface ComboBoxType<T> {
   type: string
   options: OptionType[]
-  setValue: React.Dispatch<React.SetStateAction<string>>
-  value: string
+  setValue: React.Dispatch<React.SetStateAction<T>>
+  value: T,
+  expand?: boolean
 }
 
 
 
-export function Combobox({type,options, setValue, value}: ComboBoxType) {
-  const [open, setOpen] = React.useState(false)
+export function Combobox<T extends string>({type,options, setValue, value, expand=false}: ComboBoxType<T>) {
+  const [open, setOpen] = React.useState(false);
   
 
 
@@ -47,7 +47,7 @@ export function Combobox({type,options, setValue, value}: ComboBoxType) {
       <div className="relative inline-block">
       <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-            <LinearButton option={selectedOption} />
+            <LinearButton option={selectedOption} expand={expand}/>
       </PopoverTrigger>
       <PopoverContent className="absolute left-1/2 -translate-x-10 w-[300px] z-100 bg-neutral-800 border-neutral-700 text-neutral-200 px-0 py-0 ">
         <Command>
@@ -60,7 +60,7 @@ export function Combobox({type,options, setValue, value}: ComboBoxType) {
                   key={option.value}
                   value={option.value}
                   onSelect={(currentValue) => {
-                    setValue(currentValue === value ? "" : currentValue)
+                    setValue(currentValue as T)
                     setOpen(false)
                   }}
                   className=" text-neutral-200 font-light"

@@ -7,22 +7,17 @@ import useProjectLogContext from "@/app/context/ProjectLogContext"
 import { useSidebar } from "@/app/context/SidebarContext";
 import {useQuery} from "@tanstack/react-query"
 import ProjectItem from "@/app/components/ProjectItem";
+import { Project } from "@/app/types/project";
+import { useEffect } from "react";
+import Loading from "@/app/components/Loading";
+import { useRouter } from "next/navigation";
 
-
-interface Project {
-    id: string
-    role: string
-    project: {
-        name: string
-    }
-}
 
 
 export default function Projects(){
     const {openProjectLog} = useProjectLogContext();
     const { openSideBar, openSidebarRef} = useSidebar();
-   
-
+    const router = useRouter();
     const fetchProjects = async () => {
         const response = await fetch("/api/projects");
         if(!response.ok) throw new Error("Failed to fetch projects!")
@@ -37,6 +32,12 @@ export default function Projects(){
         queryFn:   fetchProjects
     })
 
+    useEffect(()=>{
+        console.log(data);
+    },[data])
+
+   
+
 
 
     const allProjects = {
@@ -45,24 +46,17 @@ export default function Projects(){
         value: "all projects"
     }
 
-    // useEffect(()=>{
-    //     axios.get("/api/projects")
-    //     .then(response => {
-    //         console.log(response.data)
-    //         setProjectList(response.data.projects)})
-    //     .catch(error => console.error("Error fetching items:", error))
-    // },[]);
 
-    if(isLoading) return <p>Loading bitches</p>
 
-    if(error) return <p>Error bitches</p>   
+    if(isLoading) return <Loading/>
 
-    
+    if(error) return <p>Error Projects</p>   
+ 
 
     return <div>     
                    <div className="h-10 border-b-[1px] border-neutral-800 px-4  md:px-8 flex justify-between items-center">
                         <div className="grid grid-cols-2 gap-x-px items-center">
-                            <button onClick={()=> openSideBar()} className="block  md:hidden text-white " ref={openSidebarRef}>
+                            <button onClick={() => openSideBar()} className="block  md:hidden text-white " ref={openSidebarRef}>
                                     <SidbarToggleIcon/>
                             </button>
                             <p className={`text-neutral-100 font-light text-sm -ml-3 md:-ml-0 mb-[2px] md:mr-0`}>Projects</p>
@@ -74,7 +68,6 @@ export default function Projects(){
                         <button onClick={openProjectLog} className="text-sm min-w-[5%] text-neutral-400 flex p-1 px-2 justify-between items-center rounded md:hover:bg-neutral-700/40">
                                 <p className="text-neutral-400 text-xl md:text-md hover:bg-neutral-700/40 md:font-extralight hover:md:bg-none px-2 rounded md:px-0">+</p>
                                 <p className="hidden md:block text-neutral-100 ml-2 font-extralight text-xs ">Add project</p>
-                                
                         </button>
                    </div>
 
@@ -104,16 +97,13 @@ export default function Projects(){
                                          <div className="hidden lg:flex items-center">
                                             <p className="ml-2">Progress</p>
                                         </div>
-                                        
-                                        
                                     </div>
                                 </div>
                             </div>
-                            
                     </div>  
                     <ul className="grid grid-cols-1 w-full">
                         {data?.map( (project: Project)  => {
-                            return <li key={project.id}>
+                            return <li key={project.projectId} onClick={() => router.push(`/home/projects/${project.projectId}/overview`)}>
                                         <ProjectItem name={project.project.name} role={project.role}/>
                                   </li>
                         })}

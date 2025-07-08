@@ -17,9 +17,10 @@ interface DatePickerType {
     icon:  React.ReactNode,
     setDate : React.Dispatch<React.SetStateAction<Date | null>>,
     date : Date | null
+    expand?: boolean
 }
 
-export function DatePicker({label,icon, date, setDate}: DatePickerType) {
+export function DatePicker({label,icon, date, setDate, expand=false}: DatePickerType) {
 
 
   
@@ -35,7 +36,7 @@ export function DatePicker({label,icon, date, setDate}: DatePickerType) {
         <div className="group-hover:text-neutral-50">
             {icon}
         </div>
-       <p className="group-hover:text-white hidden md:block truncate max-w-[120px] overflow-hidden whitespace-nowrap">
+       <p className={`group-hover:text-white ${expand ? "" : "hidden"} md:block truncate max-w-[120px] overflow-hidden whitespace-nowrap`}>
         {date ? format(date, "PP").split(",")[0] : <span>{label}</span>}
       </p>
         </Button>

@@ -1,14 +1,15 @@
 import React from "react";
-import { OptionType } from "../types/ui/ui-types";
+import { OptionType } from "../types/ui-types";
 
 
 interface LinearButtonType extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   option: OptionType;
   lightup?: boolean
+  expand? : boolean
 }
 
 export const LinearButton = React.forwardRef<HTMLButtonElement, LinearButtonType>(
-  ({ option,lightup, ...props }, ref) => {
+  ({ option,lightup,expand, ...props }, ref) => {
     return (
       <button
         ref={ref}
@@ -18,7 +19,7 @@ export const LinearButton = React.forwardRef<HTMLButtonElement, LinearButtonType
         <div className="group-hover:text-neutral-50">
           {option.icon}
         </div>
-       <p className={`${lightup && "text-neutral-50"} group-hover:text-white hidden md:block truncate max-w-[120px] overflow-hidden whitespace-nowrap`}>
+       <p className={`${lightup && "text-neutral-50"} group-hover:text-white ${expand ? "" : "hidden"} md:block truncate max-w-[120px] overflow-hidden whitespace-nowrap`}>
           {option.label}
       </p>
       </button>
