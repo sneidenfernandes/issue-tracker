@@ -133,9 +133,6 @@ export function ProjectLogContextProvider({children}:{children: React.ReactNode}
         priority,
     } : ProjectBody) => {
 
-        
-        
-
         try {
 
             const body = {
@@ -169,22 +166,18 @@ export function ProjectLogContextProvider({children}:{children: React.ReactNode}
     }
 
     const queryClient = useQueryClient();
-
-
     const projectMutation = useMutation({
         mutationFn: createProject,
 
         onMutate: async (newProject) => {
             
             await queryClient.cancelQueries({queryKey:["projects"]})
-
             const previousProjects =  queryClient.getQueryData<Project[]>(["projects"]);
-
-           const optimisticProject = {
-    projectId: Date.now().toString(),        // temp id
-    memberId: 'temp-member',                 // temp
-    role: 'OWNER',                           // or whatever default
-    project: {
+            const optimisticProject = {
+            projectId: Date.now().toString(),        // temp id
+            memberId: 'temp-member',                 // temp
+            role: 'OWNER',                           // or whatever default
+            project: {
       id: Date.now().toString(),             // temp id
       name: newProject.name,
       shortSummary: newProject.shortSummary,

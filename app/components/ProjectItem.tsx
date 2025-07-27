@@ -28,7 +28,7 @@ export default function ProjectItem({name, role}: ProjectProperties){
         {role: "MAINTAINER", label: "Maintainer", icon:<FaWrench/> },
         {role: "CONTRIBUTER", label: "Contributer", icon: <FaKeyboard/>}
     ]
-    
+     
 
     return (
        <div className="h-12 hover:bg-neutral-800/60 ">

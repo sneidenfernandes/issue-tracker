@@ -6,7 +6,7 @@ export default function ProjectLayout({children}: {
     children: React.ReactNode
 }){
     return (
-        <div>
+        <div className="h-full">
             {children}
             <ProjectLog/>
         </div>

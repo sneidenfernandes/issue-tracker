@@ -11,7 +11,6 @@ import { useSidebar } from '../context/SidebarContext';
 
 
 
-
 const SidebarContent = () => {
 
     const [dropdown, setDropdown] = useState<boolean>(false);
@@ -27,13 +26,21 @@ const SidebarContent = () => {
 
     const workspaceSubItems = [
         {name: "Projects", link: "/home/projects", icon: <ProjectIcon/>},
-        {name: "Views", link: "/home/views", icon: <ViewsIcon/>},
+        {name: "Analytics", link: "/home/analytics", icon: <ViewsIcon/>},
     ];
 
     const collaboraterNames = [
         {name: "John", link: "/random"},
         {name: "Jane", link: "/random"}
     ]
+
+    const goToIssues = () => {
+        closeSideBar();
+        router.push("/home/issues")
+   
+    }
+
+
  
     
     useEffect(()=>{
@@ -73,7 +80,7 @@ const SidebarContent = () => {
             
 
              <div className='mr-2 w-[30%] flex justify-evenly' >
-                <button className='hover:text-neutral-200 hover:bg-neutral-800 p-2 rounded-xl flex flex-col justify-center' onClick={() => console.log("Search works")}>
+                <button className='hover:text-neutral-200 hover:bg-neutral-800 p-2 rounded-xl flex flex-col justify-center' onClick={() => router.push("/home/search")}>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-4">
                     <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
                     </svg>
@@ -91,16 +98,9 @@ const SidebarContent = () => {
              </div>
         </div>
 
-        <ul className='text-neutral-400 w-full flex flex-col justify-start mt-[2vh]'>
-            {/* My issues tab */}
-            <li onClick={()=>router.push("/home/notes")} className='ml-1 flex text-sm w-[90%] rounded py-1 flex-col justify-center hover:bg-neutral-900 text-neutral-300'>
-                <div className='ml-4  flex justify-start w-[65%]'>
-                    <svg width="20px" height="20px" viewBox="0 0 24 24" strokeWidth="13" fill="none" xmlns="http://www.w3.org/2000/svg" color="#f1f1f1"><path d="M6 3H3V6" stroke="#f1f1f1" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path><path d="M18 3H21V6" stroke="#f1f1f1" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path><path d="M6 21H3V18" stroke="#f1f1f1" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path><path d="M18 21H21V18" stroke="#f1f1f1" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path><path d="M12.5145 17.6913L16.5145 15.2913C16.8157 15.1106 17 14.7851 17 14.4338V10.5662C17 10.2149 16.8157 9.88942 16.5145 9.7087L12.5145 7.3087C12.1978 7.11869 11.8022 7.11869 11.4855 7.3087L7.4855 9.7087C7.1843 9.88942 7 10.2149 7 10.5662V14.4338C7 14.7851 7.1843 15.1106 7.4855 15.2913L11.4855 17.6913C11.8022 17.8813 12.1978 17.8813 12.5145 17.6913Z" stroke="#f1f1f1" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path><path d="M7.5 10.5L12 12.9995M12 12.9995C12 12.9995 15.7637 10.9492 16.5 10.5M12 12.9995V17.5" stroke="#f1f1f1" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path></svg>
-                    <p className='ml-2'>Notes</p> 
-                </div>
-            </li>
+        <ul className='text-neutral-400 w-full flex flex-col justify-start mt-[2vh]'> 
 
-            <li onClick={()=>router.push("/home/issues")} className='ml-1 flex text-sm w-[90%] rounded py-1 flex-col justify-center hover:bg-neutral-900 text-neutral-300 mb-[2vh]'>
+            <li onClick={goToIssues} className='ml-1 flex text-sm w-[90%] rounded py-1 flex-col justify-center hover:bg-neutral-900 text-neutral-300 mb-[2vh]'>
                 <div className='ml-4  flex justify-start w-[65%] '>
                     <svg width="20px" height="20px" viewBox="0 0 24 24" strokeWidth="1.5" fill="none" xmlns="http://www.w3.org/2000/svg" color="#f1f1f1"><path d="M6 3H3V6" stroke="#f1f1f1" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path><path d="M18 3H21V6" stroke="#f1f1f1" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path><path d="M6 21H3V18" stroke="#f1f1f1" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path><path d="M18 21H21V18" stroke="#f1f1f1" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path><path d="M12.5145 17.6913L16.5145 15.2913C16.8157 15.1106 17 14.7851 17 14.4338V10.5662C17 10.2149 16.8157 9.88942 16.5145 9.7087L12.5145 7.3087C12.1978 7.11869 11.8022 7.11869 11.4855 7.3087L7.4855 9.7087C7.1843 9.88942 7 10.2149 7 10.5662V14.4338C7 14.7851 7.1843 15.1106 7.4855 15.2913L11.4855 17.6913C11.8022 17.8813 12.1978 17.8813 12.5145 17.6913Z" stroke="#f1f1f1" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path><path d="M7.5 10.5L12 12.9995M12 12.9995C12 12.9995 15.7637 10.9492 16.5 10.5M12 12.9995V17.5" stroke="#f1f1f1" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path></svg>
                     <p className='ml-2'><Link href={"/home/issues"}>My Issues</Link></p> 
@@ -136,9 +136,16 @@ interface sidebarLinkType{
 
 
 
+
+
 function SidebarLink({name, subItems}: sidebarLinkType){
     const [open, setOpen] = useState<boolean>(false);  
     const router = useRouter();
+    const {closeSideBar} = useSidebar();
+    const routeAndClose = (link: string) => {
+        closeSideBar();
+        router.push(link);
+    } 
     
     const variants = {
         closed: {
@@ -187,7 +194,7 @@ function SidebarLink({name, subItems}: sidebarLinkType){
                                         initial="closed"
                                         animate="opened"
                                         exit="closed"
-                                        onClick={()=> router.push(link)}
+                                        onClick={()=> routeAndClose(link)}
                                         variants={liVariants}
                                         key={name} className='text-sm py-1 pl-6 w-[90%] rounded font-light flex items-center text-neutral-300  hover:bg-neutral-900'>
                                         <div className=' text-white'>

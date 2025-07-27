@@ -1,7 +1,6 @@
 
 import type { Metadata } from "next";
 import AuthProvider from "./auth/Provider";
-import Footer from "./components/Footer";
 import styles from "./page.module.css"
 import "./globals.css";
 
@@ -22,16 +21,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
-      <body className="bg-neutral-950 z-1">
+      <body>
       <QueryProviders>
         <AuthProvider>
           <main className={` ${styles.background}`}>
-            <div className= "w-full">
+            <div>
               {children}
             </div> 
           </main>
-        </AuthProvider>
-        <Footer/>
+        </AuthProvider> 
       </QueryProviders>
       </body>
     </html>

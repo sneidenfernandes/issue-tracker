@@ -102,7 +102,7 @@ export default function ProjectOverview({params} : {params: Promise<{projectId: 
 
 
     return (
-            <div>
+            <div className="flex flex-col h-full overflow-y-auto">
                    <div className="h-10 border-b-[1px] border-neutral-800 px-4  md:px-8 flex justify-between items-center">
                         <div className="flex items-center space-x-2">
                             <button onClick={()=> openSideBar()} className="block  md:hidden text-white " ref={openSidebarRef}>
@@ -126,7 +126,6 @@ export default function ProjectOverview({params} : {params: Promise<{projectId: 
                     <div className="sm:hidden h-10 flex space-x-2 items-center px-4 border-b-[1px] text-xs border-neutral-800">
                         <LinearButton onClick={() => router.push(`/home/projects/${projectId}/overview`)} option={overviewOption} expand={true} lightup={currPage === "overview"}/>
                         <LinearButton onClick={() => router.push(`/home/projects/${projectId}/issues`)}  option={issuesOption} expand={true} lightup={currPage === "issues"}/>
-
                     </div>
 
                     <div className=" mt-10 w-full h-[80vh] flex flex-col py-15">

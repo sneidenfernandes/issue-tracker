@@ -9,7 +9,6 @@ interface NewIssueContextType {
    openIssueLog: () => void;
    closeIssueLog: () => void;
    saveIssue: () => void;
-
 }
 
 
@@ -24,16 +23,12 @@ export function NewIssueContextProvider({children}: {children : React.ReactNode}
 
 
     const saveIssue = async () => {
-
         console.log(issueName, issueDescription);
-
     }
 
 
     const openIssueLog = () => {setVisible(true)};
-
     const closeIssueLog = () => {setVisible(false)};
-
 
     const value = {
         visible,
@@ -55,9 +50,6 @@ export default function useNewIssueContext(){
     if(context === undefined){
         throw Error("newIssueContext is not defined.");
     }
-
-
     return context;
-    
 }
 

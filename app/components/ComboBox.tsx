@@ -25,18 +25,18 @@ interface OptionType {
     icon: React.ReactNode
 }
 
-
 interface ComboBoxType<T> {
   type: string
   options: OptionType[]
   setValue: React.Dispatch<React.SetStateAction<T>>
   value: T,
   expand?: boolean
+  ref?: React.RefObject<HTMLDivElement | null>
 }
 
 
 
-export function Combobox<T extends string>({type,options, setValue, value, expand=false}: ComboBoxType<T>) {
+export function Combobox<T extends string>({type,options, setValue, value, expand=false, ref}: ComboBoxType<T>) {
   const [open, setOpen] = React.useState(false);
   
 
@@ -49,7 +49,7 @@ export function Combobox<T extends string>({type,options, setValue, value, expan
       <PopoverTrigger asChild>
             <LinearButton option={selectedOption} expand={expand}/>
       </PopoverTrigger>
-      <PopoverContent className="absolute left-1/2 -translate-x-10 w-[300px] z-100 bg-neutral-800 border-neutral-700 text-neutral-200 px-0 py-0 ">
+      <PopoverContent className="absolute left-1/2 -translate-x-10 w-[300px] z-2500 bg-neutral-800 border-neutral-700 text-neutral-200 px-0 py-0 ">
         <Command>
           <CommandInput placeholder={`Change ${type}...`} className=" text-neutral-200 pl-2 ml-1 text-sm flex justify-start item-center font-light border-b-[1px] border-neutral-700 w-full rounded-none" />
           <CommandList>
@@ -64,6 +64,7 @@ export function Combobox<T extends string>({type,options, setValue, value, expan
                     setOpen(false)
                   }}
                   className=" text-neutral-200 font-light"
+                  ref={ref}
                 >
                   {option.icon}
                   {option.label}

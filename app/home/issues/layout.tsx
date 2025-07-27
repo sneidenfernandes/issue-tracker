@@ -1,11 +1,10 @@
 
-
-export default function NotesLayout({children}: {
+export default function ProjectLayout({children}: {
     children: React.ReactNode
 }){
     return (
-        <div >
-            {children}
+        <div className="h-full">
+            {children} 
         </div>
     )
 }

@@ -5,7 +5,7 @@ import { useSession } from 'next-auth/react';
 import { Button } from '@/components/ui/button';
 import { GoogleLogo } from './icons/google-logo';
 import { signIn, signOut } from 'next-auth/react';
-import BugboardLogo from './icons/BugboardLogo';
+import { HiMiniBugAnt } from 'react-icons/hi2';
 
 
 
@@ -15,12 +15,12 @@ import BugboardLogo from './icons/BugboardLogo';
 const Navbar = () => {
 
   return (
-    <nav className='fixed h-15 border-b-[1px] border-neutral-700 top-0 w-full mx-auto flex justify-center items-center z-100 backdrop-blur-lg '>
+    <nav className='fixed h-15 border-b-[1px] border-neutral-700 bg-blur-xl top-0 w-full mx-auto flex justify-center items-center z-100 backdrop-blur-lg '>
         <div className='flex justify-between'>
             <div className='flex flex-col justify-center'>
                 <div className='flex justify-between items-center min-w-[90vw] md:min-w-[80vw]  lg:min-w-[56vw]'>
-                  <Link href={"/"}>
-                    <BugboardLogo/>
+                  <Link href={"/"} className='flex justify-center space-x-1 items-center text-neutral-200'>
+                        <p className='font-roboto font-bold '><span className='text-transparent bg-clip-text bg-gradient-to-b from-neutral-50 to-neutral-300'>Bugboard</span></p>
                   </Link>
                   <AuthStatus/>                    
                 </div>
@@ -37,9 +37,9 @@ const AuthStatus = () => {
     if(status === "unauthenticated"){
         return (
             <div>
-                <Button variant="outline" onClick={()=>{signIn("google",{callbackUrl:'/home'})}}>
+                <Button variant="ghost" onClick={()=>{signIn("google",{callbackUrl:'/home'})}}>
                     <GoogleLogo/>
-                     Login
+                    <p className='font-semibold'><span className='text-transparent bg-clip-text bg-gradient-to-b from-neutral-100 to-neutral-200'>Login</span></p>
                 </Button>
             </div>
         )
@@ -53,7 +53,7 @@ const AuthStatus = () => {
     if(status === "authenticated"){
         return (
             <div>
-                <Button variant="outline" onClick={()=>{signOut({callbackUrl:"/"})}}>
+                <Button variant="ghost" onClick={()=>{signOut({callbackUrl:"/"})}}>
                      Logout
                 </Button>
             </div>
