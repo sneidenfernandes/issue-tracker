@@ -7,10 +7,11 @@ import useProjectLogContext from "@/app/context/ProjectLogContext"
 import { useSidebar } from "@/app/context/SidebarContext";
 import {useQuery} from "@tanstack/react-query"
 import ProjectItem from "@/app/components/ProjectItem";
-import { Project } from "@/app/types/project";
+import { Project } from "@/app/types/zod/project";
 import { useEffect } from "react";
 import Loading from "@/app/components/Loading";
 import { useRouter } from "next/navigation";
+import { fetchProjects } from "@/app/actions/project-actions";
 
 
 
@@ -18,13 +19,7 @@ export default function Projects(){
     const {openProjectLog} = useProjectLogContext();
     const { openSideBar, openSidebarRef} = useSidebar();
     const router = useRouter();
-    const fetchProjects = async () => {
-        const response = await fetch("/api/projects");
-        if(!response.ok) throw new Error("Failed to fetch projects!")
-        const data = await response.json();
-        console.log(data);
-        return data.projects;
-    }
+  
 
 
     const {data, isLoading, error} = useQuery({

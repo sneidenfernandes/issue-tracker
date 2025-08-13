@@ -1,6 +1,8 @@
-import axios from "axios";
 
-export const fetchProjects = async () => {
-  const res = await axios.get('/api/projects');
-  return res.data;
-};
+ export  const fetchProjects = async () => {
+        const response = await fetch("/api/projects");
+        if(!response.ok) throw new Error("Failed to fetch projects!")
+        const data = await response.json();
+        console.log(data);
+        return data.projects;
+    }

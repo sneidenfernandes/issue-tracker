@@ -5,7 +5,6 @@ import { useSession } from 'next-auth/react';
 import { Button } from '@/components/ui/button';
 import { GoogleLogo } from './icons/google-logo';
 import { signIn, signOut } from 'next-auth/react';
-import { HiMiniBugAnt } from 'react-icons/hi2';
 
 
 
@@ -37,7 +36,7 @@ const AuthStatus = () => {
     if(status === "unauthenticated"){
         return (
             <div>
-                <Button variant="ghost" onClick={()=>{signIn("google",{callbackUrl:'/home'})}}>
+                <Button variant="ghost" onClick={()=>{signIn("google",{callbackUrl:'/home/projects'})}}>
                     <GoogleLogo/>
                     <p className='font-semibold'><span className='text-transparent bg-clip-text bg-gradient-to-b from-neutral-100 to-neutral-200'>Login</span></p>
                 </Button>

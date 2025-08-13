@@ -1,6 +1,6 @@
 import { ReactNode } from "react"
 import { BacklogIcon, CancelledIcon, CompletedIcon, HighPriorityIcon, InProgressIcon, LowPriorityIcon, MediumPriorityIcon, NoPriorityIcon, PlannedIcon, UrgentPriorityIcon } from "./icons/ProjectProperyIcons"
-import {Status, Priority} from "@/app/types/project";
+import {Status, Priority} from "@/app/types/zod/project";
 
 interface OptionType {
     value: string, 

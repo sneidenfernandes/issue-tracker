@@ -1,6 +1,6 @@
 import { getServerSession } from "next-auth";
 import {prisma} from "@/lib/prisma"
-import { projectBodySchema } from "@/app/types/project";
+import { projectBodySchema } from "@/app/types/zod/project";
 
 
 
@@ -52,6 +52,8 @@ export  async function GET(){
                 project: true
             }
         })
+
+        console.log(userProjects);
 
         return new Response(
             JSON.stringify({

@@ -59,10 +59,12 @@ enum IssueStatus {
   duplicate
 }
 
-enum IssueLabel {
-  bug
-  feature
-  improvement
+enum IssuePriority {
+  no_priority
+  urgent
+  high
+  medium
+  low
 }
 
 enum IssueRole {
@@ -72,8 +74,10 @@ enum IssueRole {
   APPROVER
 }
 
+
+
 enum ProjectRole {
-  OWNER
+  OWNER 
   ADMIN
   MAINTAINER
   CONTRIBUTER
@@ -104,8 +108,7 @@ model ProjectMembership {
   member           User   @relation(fields: [memberId], references: [id])
   projectId        String
   project          Project @relation(fields:[projectId], references: [id])
-  role             ProjectRole @default(OWNER)
-
+  role             String @default("OWNER")
   @@id([memberId,projectId]) 
 }
 
@@ -117,11 +120,11 @@ model Issue {
   createrId              String
   creater                User @relation(fields: [createrId], references: [id])
   issueMembership        IssueMembership[]
-  label                  IssueLabel @default(feature)
+  priority               IssuePriority @default(no_priority)
   status                 IssueStatus @default(todo)
   projectId              String
   project                Project @relation(fields: [projectId], references: [id])
-
+  createdAt              DateTime
 }
 
 model IssueMembership {

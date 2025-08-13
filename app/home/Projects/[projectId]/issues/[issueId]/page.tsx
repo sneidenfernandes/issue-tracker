@@ -4,7 +4,7 @@ import { useSidebar } from "@/app/context/SidebarContext";
 import { useQueryClient } from "@tanstack/react-query";
 import React from "react";
 import { BsChevronRight } from "react-icons/bs";
-import { Project } from "@/app/types/project";
+import { Project } from "@/app/types/zod/project";
 import { useEffect, useState } from "react";
 import { Combobox } from "@/app/components/ComboBox";
 import { statusOptions, priorityOptions } from "@/app/components/OptionsLists";

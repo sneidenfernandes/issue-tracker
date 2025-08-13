@@ -11,8 +11,8 @@ export default function Home() {
 
   useEffect(()=>{
     if(status === "authenticated")
-    router.push("/home");
-  },[status, router])
+    router.push("/home/projects");
+  },[status, router]);
 
 
   return (

@@ -156,9 +156,10 @@ exports.Prisma.IssueScalarFieldEnum = {
   name: 'name',
   description: 'description',
   createrId: 'createrId',
-  label: 'label',
+  priority: 'priority',
   status: 'status',
-  projectId: 'projectId'
+  projectId: 'projectId',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.IssueMembershipScalarFieldEnum = {
@@ -305,10 +306,12 @@ exports.ProjectPriority = exports.$Enums.ProjectPriority = {
   low: 'low'
 };
 
-exports.IssueLabel = exports.$Enums.IssueLabel = {
-  bug: 'bug',
-  feature: 'feature',
-  improvement: 'improvement'
+exports.IssuePriority = exports.$Enums.IssuePriority = {
+  no_priority: 'no_priority',
+  urgent: 'urgent',
+  high: 'high',
+  medium: 'medium',
+  low: 'low'
 };
 
 exports.IssueStatus = exports.$Enums.IssueStatus = {

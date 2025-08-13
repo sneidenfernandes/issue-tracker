@@ -4,8 +4,8 @@ import axios from "axios";
 import { useDialogContext } from "./DialogContext";
 import { toast } from "sonner";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Project, ProjectBody, projectBodySchema } from "../types/project";
-import { Status, Priority } from "../types/project";
+import { Project, ProjectBody, projectBodySchema } from "../types/zod/project";
+import { Status, Priority } from "../types/zod/project";
 
 
 interface ProjectLogType {

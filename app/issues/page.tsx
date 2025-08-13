@@ -13,7 +13,7 @@ import { issuePriorityOptions, issueStatusOptions } from "@/app/components/icons
 
 
 export default function Projects(){
-    const {setVisible} = useNewIssueContext();
+    const {openIssueLog} = useNewIssueContext();
     const { openSideBar, openSidebarRef} = useSidebar();
     const router = useRouter();
 
@@ -89,7 +89,7 @@ export default function Projects(){
                             </div>
                         </div> 
 
-                        <button onClick={()=> setVisible(true)} className="text-sm min-w-[5%] text-neutral-400 flex p-1 px-2 justify-between items-center rounded md:hover:bg-neutral-700/40">
+                        <button onClick={openIssueLog} className="text-sm min-w-[5%] text-neutral-400 flex p-1 px-2 justify-between items-center rounded md:hover:bg-neutral-700/40">
                                 <p className="text-neutral-400 text-xl md:text-md hover:bg-neutral-700/40 md:font-extralight hover:md:bg-none px-2 rounded md:px-0">+</p>
                                 <p className="hidden md:block text-neutral-100 ml-2 font-extralight text-xs ">Add Issue</p>
                         </button>
@@ -168,7 +168,7 @@ export default function Projects(){
                                                     })}
                                 </ul>
                             :<div className="w-full flex flex-col justify-center space-y-1 items-center mt-60 md:mt-70">
-                                <Button onClick={() => setVisible(true)} size="sm" variant={"indigo"} className="mb-4">Create new Issue</Button>
+                                <Button onClick={() => openIssueLog()} size="sm" variant={"indigo"} className="mb-4">Create new Issue</Button>
                                 <p className="text-md text-neutral-300">Add issues to the project</p>
                                 <p className="text-xs text-neutral-500">Start building your project</p>
                             </div>

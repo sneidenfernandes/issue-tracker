@@ -57,7 +57,7 @@ export function Combobox<T extends string>({type,options, setValue, value, expan
             <CommandGroup className="bg-neutral-800 border-t-[1px] border-neutral-700">
               {options.map((option, index) => (
                 <CommandItem
-                  key={option.value}
+                  key={index}
                   value={option.value}
                   onSelect={(currentValue) => {
                     setValue(currentValue as T)

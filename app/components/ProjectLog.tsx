@@ -30,7 +30,7 @@ const ProjectLog = () => {
          status,
          priority,
          addProjectTrigger,
-         cancelProject
+         cancelProject,
     
         } = useProjectLogContext();
 
@@ -87,8 +87,8 @@ const ProjectLog = () => {
                     <div className='h-10 mt-5 md:mt-10 px-8 flex justify-start w-full space-x-4'>
                             <Combobox value={status} setValue={setStatus} type="status" options={statusOptions}/>
                             <Combobox value={priority} setValue={setPriority} type="priority" options={priorityOptions}/>
-                            <DatePicker date={startDate} setDate={setStartDate} label="Start Date" icon={<StartDateIcon/>}/>
-                            <DatePicker date={targetDate} setDate={setTargetDate} label="Target Date" icon={<TargetDateIcon/>}/>
+                            <DatePicker date={startDate} setDate={setStartDate} expand={true} label="Start Date" icon={<StartDateIcon/>}/>
+                            <DatePicker date={targetDate} setDate={setTargetDate} expand={true} label="Target Date" icon={<TargetDateIcon/>}/>
                     </div>
 
                     <div className='h-[0.5px] mt-2 border-neutral-700 border-b-[0.5px] mx-7 md:mx-8'></div>

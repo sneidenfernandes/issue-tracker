@@ -9,24 +9,67 @@ import { Button } from '@/components/ui/button';
 import { Combobox } from './ComboBox';
 import { ProjectIcon } from './icons/WorkspaceIcons';
 import { issuePriorityOptions, issueStatusOptions } from './icons/IssuePropertyIcons';
-
+import { useQuery } from '@tanstack/react-query';
+import { fetchProjects } from '../actions/project-actions';
 
 const IssueLog = () => {
-  const { visible, closeIssueLog } = useNewIssueContext();
   const issueRef = useRef<HTMLDivElement | null>(null);
   const [expand, setExpand] = useState(false);
-  const [status, setStatus] = useState<string>("");
-  const [priority, setPriority] = useState<string>("");
-  const [project, setProject] = useState<string>("");
+
+  const {
+    visible,
+    issueName, 
+    setIssueName,
+    issueDescription,
+    setIssueDescription,
+    issueStatus,
+    setIssueStatus,
+    issuePriority,
+    setIssuePriority,
+    issueProjectId,
+    setIssueProjectId,
+    setVisible,
+    cancelIssue,
+
+  } 
+  = useNewIssueContext();
 
 
-  const projectList = [
-    {value:"no-project", label:"No project", icon:<ProjectIcon/>},
-    {value:"asdfasdf", label:"aasdfsdf", icon:<ProjectIcon/>},
-    {value:"asdasdff", label:"asdasdff", icon:<ProjectIcon/>},
-    {value:"asdsadff", label:"aasdfsdf", icon:<ProjectIcon/>},
-    {value:"aasdfsdf", label:"aasdfsdf", icon:<ProjectIcon/>},
-  ]
+
+  interface projectItem {
+    project: {
+      name: string
+    }
+  }
+
+
+
+
+  const {data} = useQuery(
+    {
+      queryKey: ["projects"],
+      queryFn: fetchProjects
+    }
+  )
+
+  console.log(data);
+
+
+  const projectList = data ? data.map((project : projectItem) => {
+
+    console.log(project);
+
+    return {
+      value: project.project.name,
+      icon : <ProjectIcon/>,
+      label: project.project.name
+    }
+  }) : [{value: "no projects found", icon:<ProjectIcon/>, label: "No projects found"}];
+ 
+
+
+
+  
 
 
   useEffect(()=>{
@@ -37,7 +80,7 @@ const IssueLog = () => {
          const comboboxDropdown = document.querySelector('[data-radix-popper-content-wrapper]');
          const target = event.target as Node
         if(issueRef.current && !issueRef.current.contains(target)  && !(comboboxDropdown && comboboxDropdown.contains(target))){
-            closeIssueLog();
+            setVisible(false);
         }
       }    
 
@@ -57,7 +100,7 @@ const IssueLog = () => {
              }}
             transition={{ duration: 0.1, ease: 'easeOut' }}
             ref={issueRef}
-            className={`fixed  w-[90%] left-1/2 top-1/2 -translate-y-1/2 -translate-x-1/2 md:w-[40%] md:-translate-x-1/3 lg:-translate-x-1/2  border-neutral-700 border-[1px] bg-black z-1500 rounded-xl`}
+            className={`fixed  w-[90%] left-1/2 top-1/2 -translate-y-1/2 -translate-x-1/2 md:w-[40%] md:-translate-x-1/3 lg:-translate-x-1/2  border-neutral-700 border-[1px] bg-black z-150 rounded-xl`}
             >
                 <div className='w-full h-full bg-neutral-800/80  rounded-xl flex flex-col justify-start px-3 '>
                      <div className='flex justify-between items-center px-2 md:px-5 mt-2 py-2'>
@@ -79,7 +122,7 @@ const IssueLog = () => {
                             }
                            </button>
 
-                          <button onClick={closeIssueLog} className=" text-neutral-400 p-1 rounded hover:bg-neutral-700 hover:font-semibold hover:text-neutral-200 transition ease-in">
+                          <button onClick={() => setVisible(false)} className=" text-neutral-400 p-1 rounded hover:bg-neutral-700 hover:font-semibold hover:text-neutral-200 transition ease-in">
                               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1" stroke="currentColor" className="size-5">
                               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12"/>
                               </svg>
@@ -88,23 +131,23 @@ const IssueLog = () => {
                     </div>
                     <div className='flex flex-col justify-start'>
                         <div className='child mx-6 mt-2 '>
-                          <input onChange={(e) => console.log(e.target.value)}  type="text" placeholder='Issue title' className='bg-transparent h-full w-full p-2 text-2xl  text-neutral-100 outline-none focus:outline-none focus:ring-0 placeholder:text-neutral-500'/>
+                          <input value={issueName} onChange={(e) => setIssueName(e.target.value)} type="text" placeholder='Issue title' className='bg-transparent h-full w-full p-2 text-2xl  text-neutral-100 outline-none focus:outline-none focus:ring-0 placeholder:text-neutral-500'/>
                         </div>
 
                       <div className={`child mx-6 ${expand ? "h-[40vh]": "h-[15vh]"}`}>
-                          <textarea  onChange={(e) => console.log(e.target.value)} placeholder='Description' className='bg-transparent resize-none h-full w-full p-2 text-md  font-light text-neutral-100 outline-none focus:outline-none focus:ring-0 placeholder:text-neutral-500'/>
+                          <textarea value={issueDescription}  onChange={(e) => setIssueDescription(e.target.value)} placeholder='Description' className='bg-transparent resize-none h-full w-full p-2 text-md  font-light text-neutral-100 outline-none focus:outline-none focus:ring-0 placeholder:text-neutral-500'/>
                       </div>
                     </div>
 
                      <div className='child flex flex-col justify-end flex-1'>
                          <div className='h-10 mt-5 md:mt-10 px-8 flex justify-start w-full space-x-4'>
-                            <Combobox expand={true} value={status} setValue={setStatus} type="status" options={issueStatusOptions}/>
-                            <Combobox expand={true} value={priority} setValue={setPriority} type="priority" options={issuePriorityOptions}/>
-                            <Combobox expand={true} value={project} setValue={setProject} type="project" options={projectList}/>
+                            <Combobox expand={true} value={issueStatus}   setValue={setIssueStatus} type="status" options={issueStatusOptions}/>
+                            <Combobox expand={true} value={issuePriority} setValue={setIssuePriority} type="priority" options={issuePriorityOptions}/>
+                            <Combobox expand={true} value={issueProjectId}  setValue={setIssueProjectId} type="project" options={projectList}/>
                     </div>
 
                         <div className='border-t min-h-15 border-neutral-700 flex justify-end items-center space-x-2 p-4'>
-                            <Button onClick={()=> console.log("Cancel")} size="sm" variant={"black"}>Cancel</Button>
+                            <Button onClick={()=> cancelIssue()} size="sm" variant={"black"}>Cancel</Button>
                             <Button onClick={()=> console.log("Create Project")} size="sm" variant={"indigo"}>Create Issue</Button>
                         </div>
                     </div>
