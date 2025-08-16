@@ -10,22 +10,14 @@ import { Button } from "@/components/ui/button";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@radix-ui/react-hover-card";
 import { OptionType } from "@/app/types/ui-types";
 import { issuePriorityOptions, issueStatusOptions } from "@/app/components/icons/IssuePropertyIcons";
+import { Issue } from "@/app/types/zod/issue";
 
 
 export default function Projects(){
     const {setVisible} = useNewIssueContext();
     const { openSideBar, openSidebarRef} = useSidebar();
+    
     const router = useRouter();
-
-
-    interface Issue {
-    id: number, 
-    name: string, 
-    project: string, 
-    status: string,
-    priority: string,
-    date: Date
-}
 
 
 

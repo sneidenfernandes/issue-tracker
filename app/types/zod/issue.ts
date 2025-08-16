@@ -31,3 +31,13 @@ export const enum IssuePriority {
     MEDIUM = "medium",
     HIGH = "high"
 }
+
+export interface Issue {
+    id: number, 
+    name: string, 
+    project: string, 
+    status: string,
+    priority: string,
+    date: Date
+}
+
