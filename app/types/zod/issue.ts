@@ -4,7 +4,6 @@ import * as z from "zod/v4";
 
  export const projectIssueSchema = z.object({
         name: z.string().nonempty(),
-        projectId: z.string().nonempty(),
         description: z.string(),
         createdAtDate: z.preprocess(
         (arg) => (typeof arg === "string" || arg instanceof Date) ? new Date(arg) : arg,

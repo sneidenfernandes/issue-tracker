@@ -7,7 +7,6 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Project, ProjectBody, projectBodySchema } from "../types/zod/project";
 import { Status, Priority } from "../types/zod/project";
 
-
 interface ProjectLogType {
     // modal
     closeProjectLog: () => void,
@@ -178,14 +177,14 @@ export function ProjectLogContextProvider({children}:{children: React.ReactNode}
             memberId: 'temp-member',                 // temp
             role: 'OWNER',                           // or whatever default
             project: {
-      id: Date.now().toString(),             // temp id
-      name: newProject.name,
-      shortSummary: newProject.shortSummary,
-      description: newProject.description,
-      startDate: newProject.startDate,
-      targetDate: newProject.targetDate,
-      status: newProject.status,
-      priority: newProject.priority,
+            id: Date.now().toString(),             // temp id
+            name: newProject.name,
+            shortSummary: newProject.shortSummary,
+            description: newProject.description,
+            startDate: newProject.startDate,
+            targetDate: newProject.targetDate,
+            status: newProject.status,
+            priority: newProject.priority,
     }
   };
 

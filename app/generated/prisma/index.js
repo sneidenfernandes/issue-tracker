@@ -333,7 +333,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/Users/sneiden/issue-tracker/app/generated/prisma",
+      "value": "/Users/sneiden/Projects/issue-tracker/app/generated/prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -349,12 +349,11 @@ const config = {
     "previewFeatures": [
       "fullTextSearchPostgres"
     ],
-    "sourceFilePath": "/Users/sneiden/issue-tracker/prisma/schema.prisma",
+    "sourceFilePath": "/Users/sneiden/Projects/issue-tracker/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": null,
-    "schemaEnvPath": "../../../.env"
+    "rootEnvPath": null
   },
   "relativePath": "../../../prisma",
   "clientVersion": "6.7.0",
@@ -363,11 +362,12 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": true,
   "inlineDatasources": {
     "db": {
       "url": {
         "fromEnvVar": "DATABASE_URL",
-        "value": "postgresql://neondb_owner:npg_czU4NmGlTZS6@ep-spring-shadow-a4czpa36.us-east-1.aws.neon.tech/neondb?sslmode=require"
+        "value": null
       }
     }
   },

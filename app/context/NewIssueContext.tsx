@@ -2,6 +2,11 @@
 import { createContext, Dispatch, SetStateAction, useContext, useState } from "react";
 import { IssueStatus, IssuePriority } from "../types/issue-types";
 import { useDialogContext } from "./DialogContext";
+import axios from "axios";
+import { projectIssueSchema } from "../types/zod/issue";
+import { useMutation,useQueryClient } from "@tanstack/react-query";
+import { Issue } from "../types/zod/issue";
+import { toast } from "sonner";
 
 
 interface NewIssueContextType {
@@ -21,6 +26,9 @@ interface NewIssueContextType {
 }
 
 
+
+
+
 const NewIssueContext = createContext<NewIssueContextType | undefined>(undefined)
 
 
@@ -36,6 +44,16 @@ export function NewIssueContextProvider({children}: {children : React.ReactNode}
     const {openDialog, cancelDialog} = useDialogContext();
 
 
+    interface NewIssueBody {
+    issueName: string, 
+    issueDescription: string, 
+    issuePriority: string, 
+    issueStatus: string, 
+    issueProjectId: string,
+}
+
+
+
 
     const initialState = {
         issueName: "",
@@ -47,14 +65,14 @@ export function NewIssueContextProvider({children}: {children : React.ReactNode}
 
 
     const isInitialState = (
-        issueName === initialState.issueName,
-        issueDescription === initialState.issueDescription,
-        issuePriority === initialState.issuePriority,
-        issueProjectId === initialState.issueProjectId,
+        issueName === initialState.issueName &&
+        issueDescription === initialState.issueDescription &&
+        issuePriority === initialState.issuePriority &&
+        issueProjectId === initialState.issueProjectId &&
         issueStatus === initialState.issueStatus
     )
 
-
+    
 
 
 
@@ -87,6 +105,100 @@ export function NewIssueContextProvider({children}: {children : React.ReactNode}
         setVisible(false);
 
     }
+
+    const createIssue = async({
+       issueName, 
+       issueDescription,
+       issuePriority,
+       issueStatus,
+       issueProjectId
+
+    }: NewIssueBody) => {
+
+        try{
+
+            const requestBody = {
+                name: issueName,
+                discription: issueDescription,
+                priority: issuePriority,
+                issueStatus: issueStatus,
+                createdAt: String(new Date())
+            }
+
+
+            const isValid = projectIssueSchema.safeParse(requestBody);
+
+
+            if(!isValid){
+                return new Response(JSON.stringify({
+                    message: "Invalid Schema!"
+                }),
+            {
+                status: 422,
+                headers:{
+                    "Content-Type": "application/json"
+                }
+            })
+            }
+
+
+            const response = await axios.post(`${process.env.NEXTAUTH_URL}/api/issues/`,requestBody,{
+                params:{
+                    projectId: issueProjectId
+                }
+            })
+
+
+            if(response.status !== 200){
+                throw new Error(`Failed to create new issue for project : ${issueProjectId}`);
+            }
+
+        }catch(e){
+            console.log(e);
+            throw new Error(`Failed to create new Issue for project ${issueProjectId}`)
+        }
+
+    };
+
+    const queryClient = useQueryClient();
+
+    const addIssueMutation = useMutation({
+        mutationFn: createIssue,
+
+        onMutate: async (newIssue) => {
+
+            await queryClient.cancelQueries({queryKey:["issues"]});
+
+            const previousIssues = queryClient.getQueryData<Issue[]>(["issues"]);
+
+            const optimisticIssue = {
+                name: newIssue.issueName,
+                description: newIssue.issueDescription,
+                project: newIssue.issueProjectId,
+                status: newIssue.issueStatus,
+                priority: newIssue.issuePriority,
+                date: String(new Date())
+            }
+
+            queryClient.setQueryData(["issues"], (old: Issue[]=[]) => [...old, optimisticIssue]);
+
+            return {previousIssues}
+        },
+
+        onSuccess: () => {
+            toast.success(`New Issue added!`)
+        },
+
+        onError:(err, _variables, context) => {
+            if(context?.previousIssues){
+                queryClient.setQueryData(["issues"], context.previousIssues);
+            }
+
+            toast.error("Failed to add New Issue!")
+        }
+    })
+
+
 
 
 
