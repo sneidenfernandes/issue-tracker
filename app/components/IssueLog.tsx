@@ -30,6 +30,7 @@ const IssueLog = () => {
     setIssueProjectId,
     setVisible,
     cancelIssue,
+    addIssueTrigger
 
   } 
   = useNewIssueContext();
@@ -39,6 +40,7 @@ const IssueLog = () => {
   interface projectItem {
     project: {
       name: string
+      id?: string
     }
   }
 
@@ -52,15 +54,14 @@ const IssueLog = () => {
     }
   )
 
-  console.log(data);
 
 
   const projectList = data ? data.map((project : projectItem) => {
 
-    console.log(project);
+
 
     return {
-      value: project.project.name,
+      value: project.project.id,
       icon : <ProjectIcon/>,
       label: project.project.name
     }
@@ -148,7 +149,7 @@ const IssueLog = () => {
 
                         <div className='border-t min-h-15 border-neutral-700 flex justify-end items-center space-x-2 p-4'>
                             <Button onClick={()=> cancelIssue()} size="sm" variant={"black"}>Cancel</Button>
-                            <Button onClick={()=> console.log("Create Project")} size="sm" variant={"indigo"}>Create Issue</Button>
+                            <Button onClick={()=> addIssueTrigger()} size="sm" variant={"indigo"}>Create Issue</Button>
                         </div>
                     </div>
                 </div>

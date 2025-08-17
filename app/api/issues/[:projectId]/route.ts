@@ -1,15 +1,18 @@
 import { getServerSession } from "next-auth";
-import { useSearchParams } from "next/navigation";
 import {prisma} from "@/lib/prisma"
 import { projectIssueSchema } from "@/app/types/zod/issue";
 
 
 
-export async function POST(request: Request){
+export async function POST(
+    request: Request,
+    {params}: {params: {projectId: string}}
+){
 
-    const params = useSearchParams();
+    
     const session = await getServerSession();
-    const projectId = params.get("projectId");
+
+    const {projectId} = params;
 
 
     if(!session){

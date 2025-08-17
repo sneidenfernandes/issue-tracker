@@ -5,9 +5,8 @@ import { useDialogContext } from "./DialogContext";
 import axios from "axios";
 import { projectIssueSchema } from "../types/zod/issue";
 import { useMutation,useQueryClient } from "@tanstack/react-query";
-import { Issue } from "../types/zod/issue";
 import { toast } from "sonner";
-
+import { Issue } from "../types/zod/issue";
 
 interface NewIssueContextType {
    visible: boolean,
@@ -22,7 +21,8 @@ interface NewIssueContextType {
    issuePriority: string, 
    issueStatus: string, 
    issueProjectId: string,
-   cancelIssue: () => void
+   cancelIssue: () => void,
+   addIssueTrigger: () => void
 }
 
 
@@ -45,12 +45,14 @@ export function NewIssueContextProvider({children}: {children : React.ReactNode}
 
 
     interface NewIssueBody {
-    issueName: string, 
-    issueDescription: string, 
-    issuePriority: string, 
-    issueStatus: string, 
-    issueProjectId: string,
-}
+        issueName: string, 
+        issueDescription: string, 
+        issuePriority: string, 
+        issueStatus: string, 
+        issueProjectId: string,
+    }
+
+    
 
 
 
@@ -142,10 +144,8 @@ export function NewIssueContextProvider({children}: {children : React.ReactNode}
             }
 
 
-            const response = await axios.post(`${process.env.NEXTAUTH_URL}/api/issues/`,requestBody,{
-                params:{
-                    projectId: issueProjectId
-                }
+            const response = await axios.post(`/api/issues/${issueProjectId}`,requestBody,{
+    
             })
 
 
@@ -169,6 +169,8 @@ export function NewIssueContextProvider({children}: {children : React.ReactNode}
 
             await queryClient.cancelQueries({queryKey:["issues"]});
 
+            console.log("ProjectId:",newIssue.issueProjectId);
+
             const previousIssues = queryClient.getQueryData<Issue[]>(["issues"]);
 
             const optimisticIssue = {
@@ -186,7 +188,7 @@ export function NewIssueContextProvider({children}: {children : React.ReactNode}
         },
 
         onSuccess: () => {
-            toast.success(`New Issue added!`)
+            toast.success(`New Issue added!`);
         },
 
         onError:(err, _variables, context) => {
@@ -194,10 +196,23 @@ export function NewIssueContextProvider({children}: {children : React.ReactNode}
                 queryClient.setQueryData(["issues"], context.previousIssues);
             }
 
-            toast.error("Failed to add New Issue!")
+            toast.error("Failed to add New Issue!");
         }
     })
 
+    const addIssueTrigger = () => {
+
+        addIssueMutation.mutate({
+            issueName,
+            issueDescription,
+            issuePriority,
+            issueStatus,
+            issueProjectId
+        }) 
+
+        setVisible(false);
+        resetIssueDetails();
+    }
 
 
 
@@ -220,7 +235,8 @@ export function NewIssueContextProvider({children}: {children : React.ReactNode}
         issueName,
         issuePriority,
         issueStatus,
-        cancelIssue
+        cancelIssue,
+        addIssueTrigger
     }
 
     return <NewIssueContext.Provider value={value}>{children}</NewIssueContext.Provider>
